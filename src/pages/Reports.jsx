@@ -186,7 +186,7 @@ export default function Reports() {
           <ShieldAlert className="w-16 h-16 text-rose-500" />
         </div>
         <h1 className="text-4xl font-black text-white mb-2 tracking-tight">Access Denied</h1>
-        <h2 className="text-2xl font-bold text-rose-400 mb-6 font-urdu">رسائی ممنوع ہے</h2>
+        <h2 className="text-2xl font-bold text-rose-400 mb-6">Access Denied</h2>
       </div>
     );
   }
@@ -224,7 +224,7 @@ export default function Reports() {
           <div>
             <h2 className="text-[11px] font-black tracking-widest text-indigo-300 uppercase font-mono bg-slate-950/40 px-2 py-0.5 rounded w-max border border-indigo-500/20 backdrop-blur-sm">Executive Intelligence</h2>
             <h1 className="text-2xl md:text-3xl font-black text-white tracking-tight uppercase mt-1.5" style={{ textShadow: '0 2px 20px rgba(219,39,119,0.6), 0 4px 10px rgba(99,102,241,0.6)' }}>
-              Profit Reports / <span className="text-indigo-300 font-extrabold font-urdu">منافع کا تجزیہ</span>
+              Profit Reports
             </h1>
             <p className="text-xs text-slate-200 mt-1.5 font-medium tracking-wide flex items-center gap-2 drop-shadow-md">
               <span className="font-bold">Invovo ERP Suite</span> • <span className="text-slate-300">Performance Reports</span>
@@ -297,11 +297,11 @@ export default function Reports() {
             </tr>
           </thead>
           <tbody>
-            <tr><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0' }}>Total Sales (Sale Bill Sum)</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0' }}>کل فروخت</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', textAlign: 'right', fontWeight: 'bold' }}>{formatCurrency(metrics.totalSales)}</td></tr>
-            <tr style={{ backgroundColor: '#f8fafc' }}><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0' }}>Total Purchases (Investment)</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0' }}>کل خریداری</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', textAlign: 'right', fontWeight: 'bold' }}>{formatCurrency(metrics.totalPurchases)}</td></tr>
-            <tr><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', color: '#b91c1c' }}>Operational Expenses (Shop Outflow)</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', color: '#b91c1c' }}>دکان کے خرچے</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', textAlign: 'right', fontWeight: 'bold', color: '#b91c1c' }}>{formatCurrency(metrics.totalExpenses)}</td></tr>
-            <tr style={{ backgroundColor: '#f8fafc' }}><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0' }}>Gross Profit Margin</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0' }}>کچا منافع</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', textAlign: 'right', fontWeight: 'bold' }}>{formatCurrency(metrics.grossProfit)}</td></tr>
-            <tr style={{ backgroundColor: metrics.netProfit >= 0 ? '#f0fdf4' : '#fef2f2', borderTop: '2px solid #0f172a' }}><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', fontWeight: 'black' }}>Net Profit / Loss Sheet Summary</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', fontWeight: 'black' }}>صاف منافع</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', textAlign: 'right', fontWeight: 'black', color: metrics.netProfit >= 0 ? '#16a34a' : '#dc2626' }}>{formatCurrency(metrics.netProfit)}</td></tr>
+            <tr><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0' }}>Total Sales (Sale Bill Sum)</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0' }}>Total Sales</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', textAlign: 'right', fontWeight: 'bold' }}>{formatCurrency(metrics.totalSales)}</td></tr>
+            <tr style={{ backgroundColor: '#f8fafc' }}><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0' }}>Total Purchases (Investment)</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0' }}>Total Purchases</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', textAlign: 'right', fontWeight: 'bold' }}>{formatCurrency(metrics.totalPurchases)}</td></tr>
+            <tr><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', color: '#b91c1c' }}>Operational Expenses (Shop Outflow)</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', color: '#b91c1c' }}>Shop Expenses</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', textAlign: 'right', fontWeight: 'bold', color: '#b91c1c' }}>{formatCurrency(metrics.totalExpenses)}</td></tr>
+            <tr style={{ backgroundColor: '#f8fafc' }}><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0' }}>Gross Profit Margin</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0' }}>Gross Profit</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', textAlign: 'right', fontWeight: 'bold' }}>{formatCurrency(metrics.grossProfit)}</td></tr>
+            <tr style={{ backgroundColor: metrics.netProfit >= 0 ? '#f0fdf4' : '#fef2f2', borderTop: '2px solid #0f172a' }}><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', fontWeight: 'black' }}>Net Profit / Loss Sheet Summary</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', fontWeight: 'black' }}>Net Profit</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', textAlign: 'right', fontWeight: 'black', color: metrics.netProfit >= 0 ? '#16a34a' : '#dc2626' }}>{formatCurrency(metrics.netProfit)}</td></tr>
           </tbody>
         </table>
 
@@ -331,35 +331,35 @@ export default function Reports() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8 font-bold print:hidden">
         <div className="bg-white dark:bg-[#121b36] border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm relative">
           <h3 className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-            Total Sales / <span className="text-blue-600 dark:text-blue-400 font-black font-urdu">کل فروخت</span>
+            Total Sales / <span className="text-blue-600 dark:text-blue-400 font-black font-urdu">Total Sales</span>
           </h3>
           <p className="text-xl font-black text-blue-600 dark:text-blue-400 mt-3 font-mono">{formatCurrency(metrics.totalSales)}</p>
         </div>
         
         <div className="bg-white dark:bg-[#121b36] border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm relative">
           <h3 className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-            Total Purchases / <span className="text-orange-600 dark:text-orange-400 font-black font-urdu">کل خریداری</span>
+            Total Purchases / <span className="text-orange-600 dark:text-orange-400 font-black font-urdu">Total Purchases</span>
           </h3>
           <p className="text-xl font-black text-orange-600 dark:text-orange-400 mt-3 font-mono">{formatCurrency(metrics.totalPurchases)}</p>
         </div>
 
         <div className="bg-white dark:bg-[#121b36] border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm relative">
           <h3 className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-            Expenses / <span className="text-rose-600 dark:text-rose-400 font-black font-urdu">دکان کے خرچے</span>
+            Expenses / <span className="text-rose-600 dark:text-rose-400 font-black font-urdu">Shop Expenses</span>
           </h3>
           <p className="text-xl font-black text-rose-600 dark:text-rose-400 mt-3 font-mono">{formatCurrency(metrics.totalExpenses)}</p>
         </div>
 
         <div className="bg-white dark:bg-[#121b36] border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm relative">
           <h3 className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-            Gross Profit / <span className="text-emerald-600 dark:text-emerald-400 font-black font-urdu">کچا منافع</span>
+            Gross Profit / <span className="text-emerald-600 dark:text-emerald-400 font-black font-urdu">Gross Profit</span>
           </h3>
           <p className="text-xl font-black text-emerald-600 dark:text-emerald-400 mt-3 font-mono">{formatCurrency(metrics.grossProfit)}</p>
         </div>
 
         <div className={`border p-5 rounded-2xl shadow-sm relative ${metrics.netProfit < 0 ? 'bg-rose-950/40 border-rose-500/50 animate-pulse' : 'bg-white dark:bg-[#121b36] border-slate-200 dark:border-slate-800'}`}>
           <h3 className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-            Net Profit / <span className="text-emerald-500 font-black font-urdu">صاف منافع</span>
+            Net Profit / <span className="text-emerald-500 font-black font-urdu">Net Profit</span>
           </h3>
           <p className={`text-xl font-black mt-3 font-mono ${metrics.netProfit >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-500'}`}>
             {formatCurrency(metrics.netProfit)}
@@ -373,7 +373,7 @@ export default function Reports() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 border-b border-slate-100 dark:border-slate-800 pb-4">
             <div>
               <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-tight">📈 Net Profit vs Expenses</h3>
-              <p className="text-xs font-bold text-indigo-500 font-urdu mt-0.5">صاف منافع بمقابلہ اخراجات (روزانہ)</p>
+              <p className="text-xs font-bold text-indigo-500 font-urdu mt-0.5">Net Profit بمقابلہ اخراجات (روزانہ)</p>
             </div>
           </div>
           
@@ -414,8 +414,8 @@ export default function Reports() {
                     wrapperStyle={{ paddingTop: '20px', fontSize: '11px', fontWeight: '850' }}
                     formatter={(value) => <span className="text-slate-800 dark:text-slate-200 px-1 font-black">{value}</span>}
                   /> 
-                  <Bar dataKey="NetProfit" fill="url(#barProfitGrad)" name="Net Profit (صاف منافع)" radius={chartData.some(d => d.NetProfit < 0) ? [4, 4, 4, 4] : [8, 8, 0, 0]} />
-                  <Bar dataKey="Expenses" fill="url(#barExpenseGrad)" name="Expenses (دکان کے خرچے)" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="NetProfit" fill="url(#barProfitGrad)" name="Net Profit (Net Profit)" radius={chartData.some(d => d.NetProfit < 0) ? [4, 4, 4, 4] : [8, 8, 0, 0]} />
+                  <Bar dataKey="Expenses" fill="url(#barExpenseGrad)" name="Expenses (Shop Expenses)" radius={[8, 8, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
               <ReportsPdfExporter timeline={timeline} activeShopId={activeShopId} customStart={customStartDate} customEnd={customEndDate} />
@@ -425,12 +425,12 @@ export default function Reports() {
 
         {/* Expense Pie Chart SCREEN VIEW */}
         <div className="bg-white dark:bg-[#121b36] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm flex flex-col justify-between text-left print:hidden">
-          <h3 className="text-base font-black text-slate-900 dark:text-white mb-4">Expense Breakdown / <span className="text-xs font-normal text-slate-400 block mt-0.5 font-urdu">اخراجات کی تفصیل</span></h3>
+          <h3 className="text-base font-black text-slate-900 dark:text-white mb-4">Expense Breakdown</h3>
           {(() => {
             const pieDataMap = {};
             expenses.forEach(ex => {
               if (isWithinTimeline(ex.expense_date)) {
-                const cat = ex.category || 'General / متفرق';
+                const cat = ex.category || 'General';
                 pieDataMap[cat] = (pieDataMap[cat] || 0) + Number(ex.amount || 0);
               }
             });

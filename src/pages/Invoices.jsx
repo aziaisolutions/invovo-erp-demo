@@ -636,7 +636,7 @@ export default function Invoices() {
       "Invoice Delete / Action Menu:\n" +
       "=================================\n" +
       "Type '1' for: Clear Screen (Clear unnecessary bills from the list - Ledger Safe)\n" +
-      "Type '2' for: Mukammal Wapsi (Cancel entire bill & restore stock)\n" +
+      "Type '2' for: Full Return (Cancel entire bill & restore stock)\n" +
       "Type '3' for: Partial Goods Return (Open Partial Return Form)"
     );
 
@@ -716,7 +716,7 @@ export default function Invoices() {
               transaction_type: 'reversal',
               amount: reversalAmount, 
               remaining_balance: newGlobalBalance,
-              notes: `Mukammal Wapsi / Reversal for Invoice: ${inv.invoice_number}`
+              notes: `Full Return / Reversal for Invoice: ${inv.invoice_number}`
             }]);
             
             await supabase.from('customers').update({ payment_due: newGlobalBalance }).eq('id', parseInt(inv.customer_id));
@@ -968,7 +968,7 @@ export default function Invoices() {
 
       setShowPartialReturnModal(false);
       setReturnTargetInvoice(null);
-      alert("Choti Maal Wapsi Complete: Stock and Ledger synchronized safely!");
+      alert("Partial Return Complete: Stock and Ledger synchronized safely!");
       await fetchInvoicesData();
 
     } catch (err) {
@@ -1016,7 +1016,7 @@ export default function Invoices() {
   if (!activeShopId) {
     return (
       <div className="p-8 text-center text-slate-900 dark:text-white">
-        <h2 className="text-2xl font-bold mb-4">No Shop Selected / کوئی دکان منتخب نہیں ہے</h2>
+        <h2 className="text-2xl font-bold mb-4">No Shop Selected</h2>
         <p className="text-slate-500 dark:text-slate-400">Please select a workspace to manage invoices.</p>
       </div>
     );
@@ -1098,7 +1098,7 @@ export default function Invoices() {
               <div>
                 <h2 className="text-[11px] font-black tracking-widest text-indigo-300 uppercase font-mono bg-slate-950/40 px-2 py-0.5 rounded w-max border border-indigo-500/20 backdrop-blur-sm">Sales Billing Engine</h2>
                 <h1 className="text-2xl md:text-3xl font-black text-white tracking-tight uppercase mt-1.5" style={{ textShadow: '0 2px 20px rgba(219,39,119,0.6), 0 4px 10px rgba(99,102,241,0.6)' }}>
-                  Invoices &amp; Billing / <span className="text-indigo-300 font-extrabold">رسیدیں اور بلنگ</span>
+                  Invoices &amp; Billing
                 </h1>
                 <p className="text-xs text-slate-200 mt-1.5 font-medium tracking-wide flex items-center gap-2 drop-shadow-md">
                   <span className="font-bold">Invovo ERP Suite</span> • <span className="text-slate-300">Transaction History</span>
@@ -1138,15 +1138,15 @@ export default function Invoices() {
                 onChange={e => setStatusFilter(e.target.value)} 
                 className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white text-sm font-bold cursor-pointer focus:outline-none"
               >
-                <option value="all">All Bills / تمام بل</option>
-                <option value="paid">Paid / ناگد</option>
-                <option value="unpaid">Unpaid / ادھار</option>
-                <option value="partially_paid">Partial / کچھ بقایا</option>
+                <option value="all">All Bills</option>
+                <option value="paid">Paid</option>
+                <option value="unpaid">Unpaid</option>
+                <option value="partially_paid">Partial</option>
               </select>
             </div>
             
             <div className="w-full md:w-1/4">
-              <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase mb-1">From Date (تاریخ سے)</label>
+              <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase mb-1">From Date</label>
               <input 
                 type="date" 
                 value={startDate} 
@@ -1156,7 +1156,7 @@ export default function Invoices() {
             </div>
 
             <div className="w-full md:w-1/4">
-              <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase mb-1">To Date (تاریخ تک)</label>
+              <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase mb-1">To Date</label>
               <input 
                 type="date" 
                 value={endDate} 
@@ -1315,7 +1315,7 @@ export default function Invoices() {
                     const balanceDue = Number(selectedInvoice?.balance_due || 0).toLocaleString();
                     const cashReceived = Number((selectedInvoice?.grand_total || 0) - (selectedInvoice?.balance_due || 0)).toLocaleString();
 
-                    const rawMessage = `*${shopName}*\n${shopAddress ? `🏠 ${shopAddress}\n` : ''}${shopPhone ? `📱 ${shopPhone}\n` : ''}\n🧾 *INVOICE No:* ${invoiceNo}\n📅 *Date:* ${invoiceDate}\n------------------------\n👤 *Customer:* ${customerName}\n📞 *Phone:* ${customerPhone}\n------------------------\n${itemListText}------------------------\n💰 *Total Bill:* ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${totalBill}\n💵 *Cash Received:* ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${cashReceived}\n🔺 *Balance Due:* ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${balanceDue}\n------------------------\n!استعمال کرنے کا شکریہ\n_Powered by Invovo | Invovo ERP_`;
+                    const rawMessage = `*${shopName}*\n${shopAddress ? `🏠 ${shopAddress}\n` : ''}${shopPhone ? `📱 ${shopPhone}\n` : ''}\n🧾 *INVOICE No:* ${invoiceNo}\n📅 *Date:* ${invoiceDate}\n------------------------\n👤 *Customer:* ${customerName}\n📞 *Phone:* ${customerPhone}\n------------------------\n${itemListText}------------------------\n💰 *Total Bill:* ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${totalBill}\n💵 *Cash Received:* ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${cashReceived}\n🔺 *Balance Due:* ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${balanceDue}\n------------------------\nThank you for your business!\n_Powered by Invovo | Invovo ERP_`;
 
                     dispatchWhatsAppMessage(activePhone, rawMessage);
                   } catch (e) {
@@ -1548,7 +1548,7 @@ export default function Invoices() {
                   </div>
 
                   <div className="space-y-1.5 border-t border-slate-700/40 pt-4">
-                    <label className="block text-xs font-bold uppercase text-slate-400">Cash Received / نقد رقم آئی *</label>
+                    <label className="block text-xs font-bold uppercase text-slate-400">Cash Received *</label>
                     <input type="number" inputMode="decimal" min="0" required value={cashReceived} onChange={e => setCashReceived(Math.max(0, parseFloat(e.target.value) || 0))} className="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white font-mono text-lg font-black text-right text-emerald-400 focus:outline-none" placeholder="0" />
                   </div>
 
@@ -1574,7 +1574,7 @@ export default function Invoices() {
                     disabled={lineItems.length === 0} 
                     className="w-full mt-4 py-3.5 px-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-black text-xs tracking-wider uppercase shadow-lg shadow-indigo-500/20 transition-all cursor-pointer text-center block"
                   >
-                    🚀 Generate Sales Invoice / بل محفوظ کریں
+                    🚀 Generate Sales Invoice
                   </button>
                 </div>
               </div>
@@ -1589,37 +1589,37 @@ export default function Invoices() {
           <div className="bg-slate-900 border-2 border-indigo-500/40 shadow-2xl rounded-3xl w-full max-w-lg overflow-hidden max-h-[90vh] overflow-y-auto p-6 text-right" dir="rtl">
             <div className="flex items-center gap-3 border-b border-slate-800 pb-4 mb-4">
               <span className="text-2xl">🔒</span>
-              <h3 className="text-xl font-black text-white tracking-tight">کھاتہ سیشن کنٹرول (Ledger Session Management)</h3>
+              <h3 className="text-xl font-black text-white tracking-tight">Ledger Session Management</h3>
             </div>
             
             <p className="text-sm font-bold text-slate-200 leading-loose">
-              گاہک <span className="text-indigo-400 font-black font-sans text-base">"{selectedActiveEntity.full_name || selectedActiveEntity.name}"</span> کا کھاتہ پہلے سے موجود ہے۔ بل محفوظ کرنے سے پہلے سیشن کا انتخاب کریں:
+              Customer <span className="text-indigo-400 font-black font-sans text-base">"{selectedActiveEntity.full_name || selectedActiveEntity.name}"</span> ledger already exists. Select a session before saving:
             </p>
 
             <div className="mt-5 space-y-3">
               <label className={`flex items-start gap-4 p-4 rounded-2xl border transition-all cursor-pointer ${sessionChoice === 'current' ? 'bg-indigo-600/10 border-indigo-500 text-white' : 'bg-slate-950/40 border-slate-800 text-slate-400 hover:border-slate-700'}`}>
                 <input type="radio" name="sessionRadio" checked={sessionChoice === 'current'} onChange={() => setSessionChoice('current')} className="mt-1 accent-indigo-500" />
                 <div className="text-right">
-                  <p className="font-black text-sm text-slate-100">اسی کھاتے میں شامل کریں (Continue Current Ledger)</p>
-                  <p className="text-[11px] font-bold text-slate-400 mt-0.5">نیا ادھار گاہک کے اسی پرانے چلتے ہوئے بیلنس میں جمع ہو جائے گا۔</p>
+                  <p className="font-black text-sm text-slate-100">Continue Current Ledger</p>
+                  <p className="text-[11px] font-bold text-slate-400 mt-0.5">نیا ادھار Customer کے اسی پرانے چلتے ہوئے بیلنس میں جمع ہو جائے گا۔</p>
                 </div>
               </label>
 
               <label className={`flex items-start gap-4 p-4 rounded-2xl border transition-all cursor-pointer ${sessionChoice === 'new' ? 'bg-amber-600/10 border-amber-500 text-white' : 'bg-slate-950/40 border-slate-800 text-slate-400 hover:border-slate-700'}`}>
                 <input type="radio" name="sessionRadio" checked={sessionChoice === 'new'} onChange={() => setSessionChoice('new')} className="mt-1 accent-amber-500" />
                 <div className="text-right">
-                  <p className="font-black text-sm text-slate-100">پرانا بند کر کے نیا سیشن شروع کریں (Close &amp; Open New Session)</p>
-                  <p className="text-[11px] font-bold text-slate-400 mt-0.5">پرانا کھاتہ اسی جگہ فریز ہو جائے گا اور یہ بل بالکل <span className="text-amber-400 font-black">Rs. 0</span> بیلنس کے نئے سیشن میں درج ہوگا۔</p>
+                  <p className="font-black text-sm text-slate-100">Close & Open New Session</p>
+                  <p className="text-[11px] font-bold text-slate-400 mt-0.5">The old ledger will be frozen, and this bill will be recorded in a new session with exactly <span className="text-amber-400 font-black">Rs. 0</span> balance.</p>
                 </div>
               </label>
             </div>
 
             <div className="mt-6 pt-4 border-t border-slate-800 flex flex-col-reverse sm:flex-row-reverse gap-3">
               <button type="button" onClick={executeCoreInvoiceGeneration} className="flex-1 py-3 px-4 bg-indigo-600 hover:bg-indigo-500 text-white font-black text-xs uppercase tracking-wider rounded-xl shadow-md cursor-pointer text-center">
-                ✓ سیشن لاگو کریں اور بل بنائیں
+                ✓ Apply Session & Create Bill
               </button>
               <button type="button" onClick={() => { setShowUrduSessionPrompt(false); setSelectedActiveEntity(null); }} className="py-3 px-5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs rounded-xl cursor-pointer">
-                کینسل کریں
+                Cancel
               </button>
             </div>
           </div>

@@ -75,7 +75,7 @@ export const MaintenanceGuard = ({ children }) => {
         </div>
         
         <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight uppercase">
-          System Under Maintenance / <span className="text-rose-400 font-extrabold">سسٹم مینٹیننس میں ہے</span>
+          System Under Maintenance
         </h1>
         
         <p className="text-slate-300 max-w-xl mx-auto text-base mt-4 font-bold bg-rose-950/40 p-4 border border-rose-800 rounded-xl">

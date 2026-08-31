@@ -22,7 +22,7 @@ export default function Customers() {
 // 🔒 ERP KHATA SESSION STATE SYSTEM
   const [sessionLoading, setSessionLoading] = useState(false);
 
-  const handleToggleKhataSession = async () => {
+  const handleToggleLedgerSession = async () => {
     if (!selectedEntity || !activeShopId) return;
     
     // Check current status (default to active if null/empty)
@@ -805,11 +805,11 @@ export default function Customers() {
                               {/* 👑 DYNAMIC RTL URDU SESSION STATUS BADGE */}
                               {c.khata_status === 'closed' ? (
                                 <span dir="rtl" className="w-max inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-black border bg-rose-500/10 text-rose-400 border-rose-500/20">
-                                  🔒 سیشن بند (Closed)
+                                  🔒 Session Closed
                                 </span>
                               ) : (
                                 <span dir="rtl" className="w-max inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-black border bg-emerald-500/10 text-emerald-400 border-emerald-500/20">
-                                  ⚡ چالو کھاتہ (Active)
+                                  ⚡ Active Session
                                 </span>
                               )}
                             </div>
@@ -881,14 +881,14 @@ export default function Customers() {
               <button
                 type="button"
                 disabled={sessionLoading}
-                onClick={handleToggleKhataSession}
+                onClick={handleToggleLedgerSession}
                 className={`px-4 py-2 rounded-xl text-xs font-bold cursor-pointer transition-all border shadow-sm ${
                   selectedEntity?.khata_status === 'closed'
                     ? 'bg-amber-600 hover:bg-amber-500 text-white border-amber-500/40'
                     : 'bg-slate-900 hover:bg-slate-800 text-slate-200 border-slate-700'
                 }`}
               >
-                {sessionLoading ? 'Syncing...' : selectedEntity?.khata_status === 'closed' ? '🔓 Re-open Khata Session' : '🔒 Close Current Session'}
+                {sessionLoading ? 'Syncing...' : selectedEntity?.khata_status === 'closed' ? '🔓 Re-open Ledger Session' : '🔒 Close Current Session'}
               </button>
 
               <select 
@@ -1112,7 +1112,7 @@ export default function Customers() {
                   return (
                     <div className="mt-2 pt-2 border-t border-slate-700/60 text-center">
                       <span className="inline-block w-full py-2 bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-sm font-black rounded-xl tracking-wider animate-pulse uppercase">
-                        ✓ FULLY PAID / مکمل ادائیگی
+                        ✓ FULLY PAID
                       </span>
                     </div>
                   );

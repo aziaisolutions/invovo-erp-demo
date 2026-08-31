@@ -129,7 +129,7 @@ export default function Expenses() {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to securely archive (soft-delete) this expense? / کیا آپ واقعی اس خرچے کو آرکائیو کرنا چاہتے ہیں؟")) {
+    if (window.confirm("Are you sure you want to securely archive (soft-delete) this expense? / Are you sure you want to archive this expense?")) {
       try {
         const { error } = await supabase.from('expenses').update({ status: 'cancelled' }).eq('id', id).eq('shop_id', activeShopId);
         if (error) throw error;
@@ -185,7 +185,7 @@ export default function Expenses() {
           <ShieldAlert className="w-16 h-16 text-rose-500" />
         </div>
         <h1 className="text-4xl font-black text-white mb-2 tracking-tight">Access Denied</h1>
-        <h2 className="text-2xl font-bold text-rose-400 mb-6 font-urdu">رسائی ممنوع ہے</h2>
+        <h2 className="text-2xl font-bold text-rose-400 mb-6">Access Denied</h2>
         <p className="text-slate-400 max-w-md mx-auto text-lg">
           This module contains secure financial records. Only the Shop Owner has permission to view or manage operational expenses.
         </p>
@@ -207,7 +207,7 @@ export default function Expenses() {
         
         <div className="flex items-center gap-6">
           <div className="bg-slate-800/80 backdrop-blur-md border border-slate-700/50 p-4 rounded-2xl shadow-xl">
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Current Month Total <span className="text-[10px] text-slate-500 ml-1">اس ماہ کا کل خرچ</span></p>
+            <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Current Month Total </p>
             <p className="text-2xl font-black text-rose-400 font-mono">{formatCurrency(currentMonthTotal)}</p>
           </div>
           

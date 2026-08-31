@@ -26,11 +26,11 @@ export function formatDateStandard(dateString) {
 
 export function getFriendlyError(err, isUrdu = false) {
   console.error("Core Engine Error Log:", err);
-  return isUrdu ? "کچھ مسئلہ ہوا ہے۔ براہ کرم پیج ریفریش کریں۔" : "Something went wrong. Please refresh the page.";
+  return "Something went wrong. Please refresh the page.";
 }
 
 export function showSuccessToast(isUrdu = false) {
-  alert(isUrdu ? "کامیابی سے محفوظ ہو گیا!" : "Saved successfully!");
+  alert("Saved successfully!");
 }
 
 // =========================================================================
@@ -62,7 +62,7 @@ export function EmptyState({
   isUrdu = false 
 }) {
   const messageEn = `${featureName} is empty — Please click below to add.`;
-  const messageUr = `${featureName} میں کوئی ڈیٹا نہیں ہے — براہ کرم نیچے بٹن پر کلک کر کے اندراج کریں۔`;
+  const messageUr = `No data available in ${featureName} — Please click the button below to add.`;
 
   return (
     <div className="w-full flex flex-col items-center justify-center p-6 sm:p-12 text-center rounded-2xl border-2 border-dashed border-slate-800 bg-slate-900/30 my-4 backdrop-blur-sm">

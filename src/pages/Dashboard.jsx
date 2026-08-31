@@ -325,7 +325,7 @@ export default function Dashboard() {
                 id: `cust-alert-${cust.id}`, 
                 name: cust.full_name || cust.name, 
                 phone: cust.phone || '',
-                type: 'Customer (گاہک)', 
+                type: 'Customer (Customer)', 
                 amount: currentOwed, 
                 dueDate: latestTxWithDue.due_date.split('-').reverse().join('/'), 
                 isOverdue: txDueDate < new Date().setHours(0,0,0,0) 
@@ -398,7 +398,7 @@ export default function Dashboard() {
       if (expError) throw expError;
       setShowExpenseModal(false);
       setExpenseForm({ category: 'Tea/Refreshment', customCategory: '', amount: '', notes: '' });
-      alert('Kharcha safely recorded / چھوٹا خرچہ درج ہو گیا ہے!');
+      alert('Expense recorded successfully!');
       await fetchDashboardData();
     } catch (err) {
       console.error(err);
@@ -467,10 +467,10 @@ export default function Dashboard() {
               </tr>
             </thead>
             <tbody>
-              <tr><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0' }}>Gross Revenue / Total Sales</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0' }}>کل فروخت</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', textAlign: 'right', fontWeight: 'bold' }}>{formatCurrency(metrics.revenue)}</td></tr>
-              <tr style={{ backgroundColor: '#f8fafc' }}><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0' }}>Product Gross Performance Profit</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0' }}>کچا منافع</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', textAlign: 'right', fontWeight: 'bold' }}>{formatCurrency(metrics.profit)}</td></tr>
-              <tr><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', color: '#b91c1c' }}>Total Operational Expenses (Chota Kharcha)</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', color: '#b91c1c' }}>منفی اخراجات</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', textAlign: 'right', fontWeight: 'bold', color: '#b91c1c' }}>-{formatCurrency(directExpenses)}</td></tr>
-              <tr style={{ backgroundColor: calculatedNetProfit >= 0 ? '#f0fdf4' : '#fef2f2', borderTop: '2px solid #0f172a' }}><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', fontWeight: 'black' }}>True Net Business Profit</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', fontWeight: 'black' }}>اصلی منافع</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', textAlign: 'right', fontWeight: 'black', color: calculatedNetProfit >= 0 ? '#16a34a' : '#dc2626' }}>{formatCurrency(calculatedNetProfit)}</td></tr>
+              <tr><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0' }}>Gross Revenue / Total Sales</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0' }}>Total Sales</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', textAlign: 'right', fontWeight: 'bold' }}>{formatCurrency(metrics.revenue)}</td></tr>
+              <tr style={{ backgroundColor: '#f8fafc' }}><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0' }}>Product Gross Performance Profit</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0' }}>Gross Profit</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', textAlign: 'right', fontWeight: 'bold' }}>{formatCurrency(metrics.profit)}</td></tr>
+              <tr><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', color: '#b91c1c' }}>Total Operational Expenses (Chota Kharcha)</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', color: '#b91c1c' }}>Operational Costs</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', textAlign: 'right', fontWeight: 'bold', color: '#b91c1c' }}>-{formatCurrency(directExpenses)}</td></tr>
+              <tr style={{ backgroundColor: calculatedNetProfit >= 0 ? '#f0fdf4' : '#fef2f2', borderTop: '2px solid #0f172a' }}><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', fontWeight: 'black' }}>True Net Business Profit</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', fontWeight: 'black' }}>True Net Profit</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', textAlign: 'right', fontWeight: 'black', color: calculatedNetProfit >= 0 ? '#16a34a' : '#dc2626' }}>{formatCurrency(calculatedNetProfit)}</td></tr>
             </tbody>
           </table>
 
@@ -604,9 +604,9 @@ export default function Dashboard() {
             </h3>
             
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm font-bold">
-              <button type="button" onClick={() => navigate('/invoices', { state: { autoOpenNew: true } })} className="flex items-center justify-between p-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-2xl shadow-md cursor-pointer transition-all transform active:scale-95 duration-200 font-black"><span>🧾 Create Customer Bill / نیا بل</span> <span>➜</span></button>
-              <button type="button" onClick={() => navigate('/suppliers', { state: { openAddModal: true } })} className="flex items-center justify-between p-4 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white rounded-2xl shadow-md cursor-pointer transition-all transform active:scale-95 duration-200 font-black"><span>👤 Add Supplier / بیوپاری شامل کریں</span> <span>➜</span></button>
-              <button type="button" onClick={() => navigate('/inventory', { state: { autoOpenIntake: true } })} className="flex items-center justify-between p-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-2xl shadow-md cursor-pointer transition-all transform active:scale-95 duration-200 font-black"><span>📦 Log Stock In / مال کا اندراج</span> <span>➜</span></button>
+              <button type="button" onClick={() => navigate('/invoices', { state: { autoOpenNew: true } })} className="flex items-center justify-between p-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-2xl shadow-md cursor-pointer transition-all transform active:scale-95 duration-200 font-black"><span>🧾 Create Customer Bill</span> <span>➜</span></button>
+              <button type="button" onClick={() => navigate('/suppliers', { state: { openAddModal: true } })} className="flex items-center justify-between p-4 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white rounded-2xl shadow-md cursor-pointer transition-all transform active:scale-95 duration-200 font-black"><span>👤 Add Supplier</span> <span>➜</span></button>
+              <button type="button" onClick={() => navigate('/inventory', { state: { autoOpenIntake: true } })} className="flex items-center justify-between p-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-2xl shadow-md cursor-pointer transition-all transform active:scale-95 duration-200 font-black"><span>📦 Log Stock In</span> <span>➜</span></button>
             </div>
           </div>
 
@@ -615,7 +615,7 @@ export default function Dashboard() {
             <div className="bg-white dark:bg-[#121b36] border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm text-left">
               <div className="flex justify-between items-start">
                 <div>
-                  <p className="text-[11px] font-black tracking-wider text-slate-500 dark:text-slate-400 uppercase">Total Sales / <span className="text-blue-600 font-black font-urdu">کل فروخت</span></p>
+                  <p className="text-[11px] font-black tracking-wider text-slate-500 dark:text-slate-400 uppercase">Total Sales</p>
                   <h3 className="text-xl font-black text-slate-900 dark:text-white mt-2 font-mono">{formatCurrency(metrics.revenue)}</h3>
                 </div>
                 <span className="p-2 bg-indigo-500/10 text-indigo-400 rounded-xl text-base">💰</span>
@@ -629,7 +629,7 @@ export default function Dashboard() {
             <div className={`border p-5 rounded-2xl shadow-sm transition-all duration-300 text-left ${isProfitAlarmActive ? 'bg-rose-500/5 border-rose-500/40 animate-pulse' : 'bg-white dark:bg-[#121b36] border-slate-200 dark:border-slate-800'}`}>
               <div className="flex justify-between items-start">
                 <div>
-                  <p className={`text-[11px] font-black tracking-wider uppercase ${isProfitAlarmActive ? 'text-rose-500' : 'text-emerald-500'}`}>Net Profit / <span className="font-urdu font-black">اصلی بچت</span></p>
+                  <p className={`text-[11px] font-black tracking-wider uppercase ${isProfitAlarmActive ? 'text-rose-500' : 'text-emerald-500'}`}>Net Profit</p>
                   <h3 className={`text-xl font-black mt-2 font-mono ${isProfitAlarmActive ? 'text-rose-500' : 'text-emerald-600 dark:text-emerald-400'}`}>{formatCurrency(calculatedNetProfit)}</h3>
                 </div>
                 <span className={`p-2 rounded-xl text-base ${isProfitAlarmActive ? 'bg-rose-500/10 text-rose-500' : 'bg-emerald-500/10 text-emerald-400'}`}>{isProfitAlarmActive ? '⚠️' : '📈'}</span>
@@ -640,7 +640,7 @@ export default function Dashboard() {
             <div className="bg-white dark:bg-[#121b36] border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm text-left">
               <div className="flex justify-between items-start">
                 <div>
-                  <p className="text-[11px] font-black tracking-wider text-blue-600 dark:text-blue-400 uppercase">Receivables / <span className="font-urdu font-black">گاہکوں سے ادھار وصولی</span></p>
+                  <p className="text-[11px] font-black tracking-wider text-blue-600 dark:text-blue-400 uppercase">Receivables</p>
                   <h3 className="text-xl font-black text-blue-600 dark:text-blue-400 mt-2 font-mono">{formatCurrency(metrics.totalReceivables)}</h3>
                 </div>
                 <span className="p-2 bg-blue-500/10 text-blue-400 rounded-xl text-base">👤</span>
@@ -651,7 +651,7 @@ export default function Dashboard() {
             <div className="bg-white dark:bg-[#121b36] border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm text-left">
               <div className="flex justify-between items-start">
                 <div>
-                  <p className="text-[11px] font-black tracking-wider text-rose-600 dark:text-rose-400 uppercase">Total Payables / <span className="font-urdu font-black">بیوپاریوں کا قرضہ</span></p>
+                  <p className="text-[11px] font-black tracking-wider text-rose-600 dark:text-rose-400 uppercase">Total Payables</p>
                   <h3 className="text-xl font-black text-rose-600 dark:text-rose-400 mt-2 font-mono">{formatCurrency(metrics.totalPayables)}</h3>
                 </div>
                 <span className="p-2 bg-rose-500/10 text-rose-500 rounded-xl text-base">🏭</span>
@@ -663,7 +663,7 @@ export default function Dashboard() {
           {/* OPERATIONS ACTIVITY STREAM LOG */}
           <div className="bg-white dark:bg-[#121b36] border border-slate-200 dark:border-slate-800 p-6 rounded-2xl shadow-sm text-left">
             <h3 className="text-sm font-black text-slate-900 dark:text-slate-200 border-b border-slate-100 dark:border-slate-800 pb-2 mb-3">
-              📋 Business Transactions Log / روزمرہ کی کارروائی کا کھاتا
+              📋 Business Transactions Log
             </h3>
             {!metrics.rawLogs || metrics.rawLogs.length === 0 ? (
               <div className="p-4 text-center text-slate-500 text-xs italic">No activities logged yet.</div>
@@ -695,19 +695,19 @@ export default function Dashboard() {
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-150">
             <div className="bg-slate-800 border border-slate-700 rounded-2xl w-full max-w-sm overflow-hidden text-xs font-bold">
               <div className="p-5 border-b border-slate-700/50 flex justify-between items-center text-left">
-                <h3 className="text-sm font-black text-white">Record Expense / چھوٹا خرچہ درج کریں</h3>
+                <h3 className="text-sm font-black text-white">Record Expense</h3>
                 <button type="button" onClick={() => setShowExpenseModal(false)} className="p-1 text-slate-400 hover:text-white cursor-pointer">✕</button>
               </div>
               <form onSubmit={handleSaveExpense} className="p-5 flex flex-col gap-4 text-left">
                 <div>
                   <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Expense Type *</label>
                   <select value={expenseForm.category} onChange={e => setExpenseForm({...expenseForm, category: e.target.value})} className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white font-bold cursor-pointer">
-                    <option value="Chai / Food">Chai / Food (چائے/کھانا)</option>
-                    <option value="Transport / Petrol">Transport / Petrol (سفر/پٹرول)</option>
-                    <option value="Labor / Majdoori">Labor / Majdoori (مزدوری)</option>
-                    <option value="Utility Bills">Utility Bills (بل)</option>
+                    <option value="Chai / Food">Chai / Food</option>
+                    <option value="Transport / Petrol">Transport / Petrol</option>
+                    <option value="Labor / Majdoori">Labor / Majdoori</option>
+                    <option value="Utility Bills">Utility Bills</option>
                     <option value="Shop Maintenance">Shop Maintenance & Utilities</option>
-                    <option value="Other">+ Other / نیا خرچہ (Write Custom Type)</option>
+                    <option value="Other">+ Other (Write Custom Type)</option>
                   </select>
                   {expenseForm.category === 'Other' && (
                     <div className="mt-2 animate-in slide-in-from-top-1">
@@ -726,7 +726,7 @@ export default function Dashboard() {
                 </div>
                 <div className="flex gap-3 pt-2 text-xs font-bold">
                   <button type="button" onClick={() => setShowExpenseModal(false)} className="flex-1 py-2 px-3 bg-slate-700 text-white rounded-xl cursor-pointer">Cancel</button>
-                  <button type="submit" className="flex-1 py-2 px-3 bg-rose-600 text-white rounded-xl shadow-md cursor-pointer">Save / محفوظ کریں</button>
+                  <button type="submit" className="flex-1 py-2 px-3 bg-rose-600 text-white rounded-xl shadow-md cursor-pointer">Save</button>
                 </div>
               </form>
             </div>

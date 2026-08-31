@@ -8,7 +8,7 @@ export default function LowStockWidget({ lowStockItems = [], fastMovingBenchmark
     <div className="bg-white dark:bg-[#121b36] border-l-4 border-l-rose-500 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 dark:border-slate-700/50 pb-3 gap-2">
         <h3 className="text-base font-black uppercase text-rose-600 dark:text-rose-400 flex items-center gap-1.5">
-          <AlertTriangle className="w-5 h-5 text-rose-500" /> Low Stock Alerts / کم سٹاک الرٹ ({lowStockItems.length})
+          <AlertTriangle className="w-5 h-5 text-rose-500" /> Low Stock Alerts ({lowStockItems.length})
         </h3>
         {fastMovingBenchmarkItem && (
           <div className="flex items-center gap-1.5 px-3 py-1 bg-amber-500/10 text-amber-600 border border-amber-500/20 rounded-xl text-[10px] font-bold">
@@ -20,8 +20,8 @@ export default function LowStockWidget({ lowStockItems = [], fastMovingBenchmark
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-400 text-xs font-bold uppercase">
-              <th className="py-2 px-4">Item Name / آئٹم کا نام</th>
-              <th className="py-2 px-4">SKU / کوڈ</th>
+              <th className="py-2 px-4">Item Name</th>
+              <th className="py-2 px-4">SKU</th>
               <th className="py-2 px-4 text-right">Available Stock</th>
             </tr>
           </thead>

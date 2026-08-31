@@ -22,13 +22,13 @@ export default function Suppliers() {
   // 🔒 ERP KHATA SESSION STATE SYSTEM
   const [sessionLoading, setSessionLoading] = useState(false);
 
-  const handleToggleKhataSession = async () => {
+  const handleToggleLedgerSession = async () => {
     if (!selectedEntity || !activeShopId) return;
     
     const currentStatus = selectedEntity.khata_status === 'closed' ? 'active' : 'closed';
     const confirmMsg = currentStatus === 'closed' 
-      ? "🔒 Kya aap is supplier ka maujooda khata session mukammal tor pr close krna chahte hain?" 
-      : "🔓 Kya aap is khata session ko dobara naye transactions k liye Re-open krna chahte hain?";
+      ? "🔒 Kya aap is supplier ka maujooda khata session completely close the current session?" 
+      : "🔓 Kya aap is khata session ko Re-open this session for new transactions?";
       
     if (!window.confirm(confirmMsg)) return;
 
@@ -49,7 +49,7 @@ export default function Suppliers() {
         s.id === selectedEntity.id ? { ...s, khata_status: currentStatus } : s
       ));
 
-      alert(currentStatus === 'closed' ? "Khata session kamyabi se lock ho gya hai!" : "Khata session dobara active kr dia gya hai!");
+      alert(currentStatus === 'closed' ? "Customer session has been locked successfully!" : "Customer session has been re-activated!");
     } catch (err) {
       console.error("Session Toggle Error:", err);
       alert("Database error: Session status change failed.");
@@ -196,7 +196,7 @@ export default function Suppliers() {
       setSuppliers([data, ...suppliers]);
       setShowAddSupplierModal(false);
       setNewSupplier({ supplier_name: '', phone: '', address: '' });
-      alert("Supplier kamyabi se save ho gaya!");
+      alert("Supplier profile created successfully!");
     } catch (err) {
       alert(err.message || 'Failed to save supplier.');
     }
@@ -225,10 +225,10 @@ export default function Suppliers() {
       setSuppliers(suppliers.map(sup => sup.id === editingSupplier.id ? data : sup));
       setShowEditSupplierModal(false);
       setEditingSupplier(null);
-      alert("Supplier kamyabi se update ho gaya!");
+      alert("Supplier profile updated successfully!");
       fetchSuppliersData();
     } catch (err) {
-      alert(err.message || "Update karne mein masla aya.");
+      alert(err.message || "Issue occurred during update.");
     }
   };
 
@@ -239,18 +239,18 @@ export default function Suppliers() {
     const userChoice = window.prompt(
       `Supplier Management Center:\n========================\nChoose Action for: ${targetSup.supplier_name || targetSup.name}\n\n` +
       `Type '1' : Soft Delete / Archive Account Only\n` +
-      `Type '2' : Mukammal Khata Cancel (Full ERP Reversal with Auto Stock Sync)\n` +
-      `Type '3' : Choti Maal Wapsi (Partial/Multi-Item Purchase Return Engine)`
+      `Type '2' : Full Ledger Cancellation (Full ERP Reversal with Auto Stock Sync)\n` +
+      `Type '3' : Partial Return (Partial/Multi-Item Purchase Return Engine)`
     );
 
     if (!userChoice) return;
 
     if (userChoice === '1') {
       if (Math.abs(parseFloat(targetSup.payment_due || targetSup.balance_due || 0)) > 0) {
-        alert("🚨 SAFETY LOCK: Is khate mein abhi udhar baqi hai! Archive karne se pehle poora hisab clear (0) karein.");
+        alert("🚨 SAFETY LOCK: There is an outstanding balance! Please clear the balance (0) before archiving.");
         return;
       }
-      const confirmLog = window.confirm("Are you sure you want to archive this supplier profile? Active dashboard se profile ghayab ho jayegi.");
+      const confirmLog = window.confirm("Are you sure you want to archive this supplier profile? Profile will be removed from the active dashboard.");
       if (!confirmLog) return;
       
       setLoading(true);
@@ -271,7 +271,7 @@ export default function Suppliers() {
       }
     }
     else if (userChoice === '2') {
-      alert("🚨 SAFETY ALERT: 'Mukammal Khata Cancel' system band kar diya gaya hai kyunke yeh fragile data-scraping par mabni tha. \n\n✅ Kripya Option '3' (Choti Maal Wapsi) istemal karein, jo ab directly supplier stock aur ledger ko accurately sync karta hai!");
+      alert("🚨 SAFETY ALERT: 'Full Ledger Cancellation' system band kar diya gaya hai kyunke yeh fragile data-scraping par mabni tha. \n\n✅ Kripya Option '3' (Partial Return) istemal karein, jo ab directly supplier stock aur ledger ko accurately sync karta hai!");
       return;
     }
     else if (userChoice === '3') {
@@ -286,7 +286,7 @@ export default function Suppliers() {
 
         if (prodFetchErr) throw prodFetchErr;
         if (!allProds || allProds.length === 0) {
-          alert("🚨 Dukan mein koi bhi active stock wala product mojud nahi hai!");
+          alert("🚨 No active stock products found in the store!");
           setLoading(false);
           return;
         }
@@ -297,11 +297,11 @@ export default function Suppliers() {
         setLoading(false);
 
         while (continueAdding) {
-          let itemMenuString = `Wapsi Ke Liye Maal Select Karein [Item #${returnBatchItems.length + 1}]:\n====================================\n`;
+          let itemMenuString = `Select Item for Return [Item #${returnBatchItems.length + 1}]:\n====================================\n`;
           allProds.forEach((prod, index) => {
             itemMenuString += `${index + 1}) ${prod.name} (Stock: ${prod.current_stock || 0} | Rate: Rs.${parseFloat(prod.purchase_price || 0).toFixed(1)})\n`;
           });
-          itemMenuString += `\nOption Number Darj Karein:`;
+          itemMenuString += `\nEnter Option Number:`;
 
           const userSelectionInput = window.prompt(itemMenuString);
           if (!userSelectionInput || userSelectionInput.trim() === "") break;
@@ -310,16 +310,16 @@ export default function Suppliers() {
           const selectedProduct = allProds[selectionIndex];
 
           if (!selectedProduct) {
-            alert("🚨 Galt Option! Re-try karein.");
+            alert("🚨 Invalid Option! Please try again.");
             continue;
           }
 
           const currentStockNum = parseFloat(selectedProduct.current_stock || 0);
-          const inputQty = window.prompt(`Supplier Maal Wapsi [${selectedProduct.name}]:\n====================================\nDukan mein available stock: ${currentStockNum}\n\nAap kitni Quantity supplier ko wapis bhej rahe hain?`);
+          const inputQty = window.prompt(`Supplier Return [${selectedProduct.name}]:\n====================================\nAvailable stock: ${currentStockNum}\n\nHow much quantity are you returning to the supplier?`);
           const returnQty = parseFloat(inputQty);
 
           if (isNaN(returnQty) || returnQty <= 0 || returnQty > currentStockNum) {
-            alert("🚨 Galt Quantity ya Stock check failed!");
+            alert("🚨 Invalid Quantity or Stock check failed!");
             continue;
           }
 
@@ -328,7 +328,7 @@ export default function Suppliers() {
           const finalRate = parseFloat(inputRate);
 
           if (isNaN(finalRate) || finalRate <= 0) {
-            alert("🚨 Galt Rate!");
+            alert("🚨 Invalid Rate!");
             continue;
           }
 
@@ -340,7 +340,7 @@ export default function Suppliers() {
             rate: finalRate
           });
 
-          const nextChoice = window.prompt("Type 'YES' doosra item daalne ke liye, ya direct Enter dabayein:");
+          const nextChoice = window.prompt("Type 'YES' to add another item, or press Enter:");
           if (!nextChoice || nextChoice.trim().toUpperCase() !== 'YES') continueAdding = false;
         }
 
@@ -375,7 +375,7 @@ export default function Suppliers() {
           amount: totalReturnBillAmount,
           cash_paid_received: 0, 
           remaining_balance: newSupplierDebt,
-          notes: `Maal Wapsi: Bheja [ ${itemSummaryNotes} ] to Supplier.`
+          notes: `Return: Sent [ ${itemSummaryNotes} ] to Supplier.`
         }]);
 
         alert(`🎉 Return voucher completed successfully!`);
@@ -394,7 +394,7 @@ export default function Suppliers() {
 
     // 🔒 BARRIER SYSTEM: Closed session mein transaction block karna
     if (selectedEntity?.khata_status === 'closed') {
-      alert("🚨 Yeh Session Closed hai! Aap is me naya bill ya payment log nahi kar sakte.");
+      alert("🚨 This Session is Closed! You cannot log new bills or payments.");
       return;
     }
 
@@ -514,7 +514,7 @@ export default function Suppliers() {
               <div>
                 <h2 className="text-[11px] font-black tracking-widest text-indigo-300 uppercase font-mono bg-slate-950/40 px-2 py-0.5 rounded w-max border border-indigo-500/20 backdrop-blur-sm">Accounts Payable</h2>
                 <h1 className="text-2xl md:text-3xl font-black text-white tracking-tight uppercase mt-1.5" style={{ textShadow: '0 2px 20px rgba(219,39,119,0.6), 0 4px 10px rgba(99,102,241,0.6)' }}>
-                  Purchase Invoices &amp; Bills / <span className="text-indigo-300 font-extrabold">خریداری اور سپلائر بل</span>
+                  Purchase Invoices &amp; Bills
                 </h1>
               </div>
             </div>
@@ -556,11 +556,11 @@ export default function Suppliers() {
                             {/* 👑 DYNAMIC RTL URDU SESSION STATUS BADGE */}
                             {s.khata_status === 'closed' ? (
                               <span dir="rtl" className="w-max inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-black border bg-rose-500/10 text-rose-400 border-rose-500/20">
-                                🔒 سیشن بند (Closed)
+                                🔒 Session Closed
                               </span>
                             ) : (
                               <span dir="rtl" className="w-max inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-black border bg-emerald-500/10 text-emerald-400 border-emerald-500/20">
-                                ⚡ چالو کھاتہ (Active)
+                                ⚡ Active Session
                               </span>
                             )}
                           </div>
@@ -598,14 +598,14 @@ export default function Suppliers() {
               <button
                 type="button"
                 disabled={sessionLoading}
-                onClick={handleToggleKhataSession}
+                onClick={handleToggleLedgerSession}
                 className={`px-4 py-2 rounded-xl text-xs font-bold cursor-pointer transition-all border shadow-sm ${
                   selectedEntity?.khata_status === 'closed'
                     ? 'bg-amber-600 hover:bg-amber-500 text-white border-amber-500/40'
                     : 'bg-slate-900 hover:bg-slate-800 text-slate-200 border-slate-700'
                 }`}
               >
-                {sessionLoading ? 'Syncing...' : selectedEntity?.khata_status === 'closed' ? '🔓 Re-open Khata Session' : '🔒 Close Current Session'}
+                {sessionLoading ? 'Syncing...' : selectedEntity?.khata_status === 'closed' ? '🔓 Re-open Ledger Session' : '🔒 Close Current Session'}
               </button>
 
              <select value={printPaperSize} onChange={(e) => setPrintPaperSize(e.target.value)} className="bg-slate-800 px-3 py-2 text-xs text-white rounded-xl focus:outline-none cursor-pointer font-bold">
@@ -620,7 +620,7 @@ export default function Suppliers() {
                 onClick={async () => {
                   const activePhone = selectedEntity?.phone || selectedEntity?.whatsapp_number || selectedEntity?.mobile || selectedEntity?.contact_number || selectedEntity?.cell || '';
                   if (!activePhone || String(activePhone).trim() === '' || String(activePhone).length < 10) {
-                    alert("🚨 Error: WhatsApp mobile number khate mein darj nahi hai!");
+                    alert("🚨 Error: WhatsApp mobile number is not registered!");
                     return;
                   }
                   try {
@@ -634,7 +634,7 @@ export default function Suppliers() {
                       if (tType === 'payment_out' || tType === 'payment') {
                         const paymentAmount = parseFloat(latestTx.cash_paid_received || latestTx.amount || 0);
                         const previousBaqi = totalBaqi + paymentAmount;
-                        contextBlock = `📊 *Pehle Ka Total Baqi:* ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(previousBaqi).toLocaleString()}\n💵 *Ab Ada Kiye Gaye (Payment):* ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(paymentAmount).toLocaleString()}\n🔹 *Ab Total Remaining Baqi:* ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(totalBaqi).toLocaleString()}`;
+                        contextBlock = `📊 *Previous Total Balance:* ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(previousBaqi).toLocaleString()}\n💵 *Payment Made:* ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(paymentAmount).toLocaleString()}\n🔹 *New Remaining Balance:* ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(totalBaqi).toLocaleString()}`;
                       } else if (tType === 'purchase') {
                         const billTotal = parseFloat(latestTx.total_bill || latestTx.amount || 0);
                         const cashPaid = parseFloat(latestTx.cash_paid_received || 0);
@@ -648,7 +648,7 @@ export default function Suppliers() {
                       `• *Phone:* ${activeShopInfo?.phone || '03336825383'}\n` +
                       `• *Address:* ${activeShopInfo?.address || 'District Mianwali'}\n\n` +
                       `Dear *${selectedEntity.supplier_name || selectedEntity.name}*,\n` +
-                      `Aap ke khate ki mukammal live summary niche maujood hai:\n\n` +
+                      `Your complete live ledger summary is provided below:\n\n` +
                       `${contextBlock}\n\n` +
                       `---\n` +
                       `_Powered by Invovo | Invovo ERP_`;
@@ -750,14 +750,14 @@ export default function Suppliers() {
                 <span className="font-mono font-black text-xl text-orange-400">Rs. {Number(currentOutstandingTotal).toLocaleString()}</span>
               </div>
               {currentOutstandingTotal <= 0 && (
-                <div className="w-full p-2.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-center font-black rounded-xl text-xs flex items-center justify-center gap-1.5 uppercase tracking-wide">✓ FULLY PAID / مکمل ادائیگی</div>
+                <div className="w-full p-2.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-center font-black rounded-xl text-xs flex items-center justify-center gap-1.5 uppercase tracking-wide">✓ FULLY PAID</div>
               )}
             </div>
           </div>
 
           <div className="no-print mt-4 pt-4 border-t border-slate-100 flex justify-start">
             {selectedEntity?.khata_status === 'closed' ? (
-              <div className="w-full p-3 bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-center font-black rounded-xl text-xs uppercase tracking-wide">🔒 SESSION CLOSED / کھاتہ بند ہے (No new transactions allowed)</div>
+              <div className="w-full p-3 bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-center font-black rounded-xl text-xs uppercase tracking-wide">🔒 SESSION CLOSED (No new transactions allowed)</div>
             ) : (
               <button type="button" onClick={() => { setNewTx({ type: 'purchase', amount: '', due_date: '', notes: '' }); setShowTxModal(true); }} className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-bold transition-all shadow-md cursor-pointer">➕ Log Fast Transaction</button>
             )}

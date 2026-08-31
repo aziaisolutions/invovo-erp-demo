@@ -99,7 +99,7 @@ export default function Settings() {
 
       setStatus({ 
         type: 'success', 
-        message: 'Settings synchronized smoothly! / ترتیبات کامیابی سے محفوظ ہو گئیں۔' 
+        message: 'Settings synchronized smoothly!' 
       });
     } catch (err) {
       console.error(err);
@@ -147,7 +147,7 @@ export default function Settings() {
           <div>
             <h2 className="text-[11px] font-black tracking-widest text-indigo-300 uppercase font-mono bg-slate-950/40 px-2 py-0.5 rounded w-max border border-indigo-500/20 backdrop-blur-sm">System Control</h2>
             <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-white tracking-tight uppercase mt-1.5" style={{ textShadow: '0 2px 20px rgba(219,39,119,0.6), 0 4px 10px rgba(99,102,241,0.6)' }}>
-              General Settings / <span className="text-indigo-300 font-extrabold font-urdu">عام ترتیبات</span>
+              General Settings
             </h1>
             <p className="text-xs text-slate-200 mt-1.5 font-medium tracking-wide flex items-center gap-2 drop-shadow-md">
               <span className="font-bold">Invovo ERP Suite</span> • <span className="text-slate-300">Workspace Configurations</span>
@@ -169,12 +169,12 @@ export default function Settings() {
         {/* SHOP PROFILE */}
         <div className="bg-white dark:bg-slate-800/80 backdrop-blur-md border border-slate-200 dark:border-slate-700 p-6 rounded-2xl shadow-xl space-y-5">
           <h3 className="text-base font-black text-slate-900 dark:text-slate-200 uppercase tracking-wider flex items-center gap-2 border-b border-slate-200 dark:border-slate-700/60 pb-3">
-            <Store className="w-5 h-5 text-indigo-600 dark:text-indigo-400" /> Shop Profile Info / دکان کی معلومات
+            <Store className="w-5 h-5 text-indigo-600 dark:text-indigo-400" /> Shop Profile Info
           </h3>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Shop Name / دکان کا نام *</label>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Shop Name *</label>
               <div className="relative">
                 <Store className="w-4 h-4 text-slate-400 absolute left-4 top-3.5" />
                 <input type="text" required value={shopProfile.shop_name} onChange={e => setShopProfile({...shopProfile, shop_name: e.target.value})} className="w-full pl-11 pr-4 py-3 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white outline-none focus:border-indigo-500 transition-colors text-sm font-bold" />
@@ -182,7 +182,7 @@ export default function Settings() {
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Shop Contact Number / موبائل نمبر *</label>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Shop Contact Number *</label>
               <div className="relative">
                 <Phone className="w-4 h-4 text-slate-400 absolute left-4 top-3.5" />
                 <input type="tel" required value={shopProfile.phone} onChange={e => setShopProfile({...shopProfile, phone: e.target.value})} className="w-full pl-11 pr-4 py-3 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white font-mono outline-none focus:border-indigo-500 transition-colors text-left text-sm font-bold" />
@@ -191,7 +191,7 @@ export default function Settings() {
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Physical Shop Address / دکان کا پتہ</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Physical Shop Address</label>
             <div className="relative">
               <MapPin className="w-4 h-4 text-slate-400 absolute left-4 top-3.5" />
               <input type="text" value={shopProfile.address} onChange={e => setShopProfile({...shopProfile, address: e.target.value})} className="w-full pl-11 pr-4 py-3 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white outline-none focus:border-indigo-500 transition-colors text-sm font-bold" placeholder="e.g. Main Bazar" />
@@ -202,43 +202,43 @@ export default function Settings() {
         {/* PRINTING & AUTOMATION CONFIGURATIONS */}
         <div className="bg-white dark:bg-slate-800/80 backdrop-blur-md border border-slate-200 dark:border-slate-700 p-6 rounded-2xl shadow-xl space-y-5">
           <h3 className="text-base font-black text-slate-900 dark:text-slate-200 uppercase tracking-wider flex items-center gap-2 border-b border-slate-200 dark:border-slate-700/60 pb-3">
-            <FileText className="w-5 h-5 text-emerald-600 dark:text-emerald-400" /> Invoice Print &amp; Automation / بل کی سیٹنگ
+            <FileText className="w-5 h-5 text-emerald-600 dark:text-emerald-400" /> Invoice Print &amp; Automation
           </h3>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {/* 📜 THREE-TIER PRINTER DIMENSIONS Selection */}
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Default Printer Layout / پرنٹر سائز</label>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Default Printer Layout</label>
               <div className="relative">
                 <Printer className="w-4 h-4 text-slate-400 absolute left-4 top-3.5" />
                 <select value={shopProfile.receipt_size} onChange={e => setShopProfile({...shopProfile, receipt_size: e.target.value})} className="w-full pl-11 pr-4 py-3 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white font-bold outline-none focus:border-emerald-500 cursor-pointer text-sm">
-                  <option value="thermal">Thermal Roll Page (3 Inch / گٹھی پرنٹر)</option>
-                  <option value="a4">Standard Corporate Sheet (A4 Size / بڑا پیج)</option>
-                  <option value="legal">Legal Size Ledger Document (Long Page / لمبا پیج)</option>
+                  <option value="thermal">Thermal Roll Page</option>
+                  <option value="a4">Standard Corporate Sheet</option>
+                  <option value="legal">Legal Size Ledger Document</option>
                 </select>
               </div>
             </div>
 
             {/* 💬 FREE WA.ME AUTOMATED LINK CONFIG SELECTOR */}
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">WhatsApp Billing Mode / واٹس ایپ الرٹ (100% Free)</label>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">WhatsApp Billing Mode</label>
               <div className="relative">
                 <MessageCircle className="w-4 h-4 text-slate-400 absolute left-4 top-3.5" />
                 <select value={shopProfile.auto_whatsapp ? "true" : "false"} onChange={e => setShopProfile({...shopProfile, auto_whatsapp: e.target.value === "true"})} className="w-full pl-11 pr-4 py-3 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white font-bold outline-none focus:border-emerald-500 cursor-pointer text-sm">
-                  <option value="true">Enable Prompts (Dukan-dar ke Mobile Package Se Direct Share)</option>
-                  <option value="false">Disable / بند کریں (Manual Record Only)</option>
+                  <option value="true">Enable Prompts</option>
+                  <option value="false">Disable</option>
                 </select>
               </div>
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Invoice Terms &amp; Conditions / بل کی Terms & Conditions</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Invoice Terms &amp; Conditions</label>
             <textarea rows={3} dir="rtl" value={shopProfile.invoice_terms} onChange={e => setShopProfile({...shopProfile, invoice_terms: e.target.value})} className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white outline-none focus:border-emerald-500 transition-colors text-right font-black text-sm font-urdu leading-relaxed" />
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Custom Receipt Footer Note / بل کے نیچے خیرمقدمی جملہ</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Custom Receipt Footer Note</label>
             <input type="text" dir="rtl" value={shopProfile.footer_message} onChange={e => setShopProfile({...shopProfile, footer_message: e.target.value})} className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white outline-none focus:border-emerald-500 transition-colors text-right font-black text-sm font-urdu" />
           </div>
         </div>
@@ -306,7 +306,7 @@ export default function Settings() {
                   link.click();
                   document.body.removeChild(link);
 
-                  setStatus({ type: 'success', message: 'ERP Database Backup downloaded successfully! /  ڈیٹا محفوظ خانے میں ڈاؤنلوڈ ہو گیا۔' });
+                  setStatus({ type: 'success', message: 'ERP Database Backup downloaded successfully!' });
                 } catch (err) {
                   console.error(err);
                   setStatus({ type: 'error', message: 'Backup system extraction failed.' });

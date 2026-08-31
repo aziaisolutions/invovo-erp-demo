@@ -149,8 +149,8 @@ export default function SubscriptionGuardLayout({ children, shopId, isUrdu = fal
 
           {isUrdu ? (
             <div className="space-y-2">
-              <h1 className="text-3xl font-black text-white">اکاؤنٹ معطل کر دیا گیا ہے</h1>
-              <p className="text-slate-400 text-sm leading-relaxed">آپ کی رکنیت (Subscription) ختم ہو چکی ہے۔ ایپ کا استعمال جاری رکھنے کے لیے برائے مہربانی پیکیج دوبارہ چالو کریں۔</p>
+              <h1 className="text-3xl font-black text-white">Account Suspended</h1>
+              <p className="text-slate-400 text-sm leading-relaxed">Your subscription has expired. Please activate your package to continue using the application.</p>
             </div>
           ) : (
             <div className="space-y-2">
@@ -160,8 +160,8 @@ export default function SubscriptionGuardLayout({ children, shopId, isUrdu = fal
           )}
 
           <div className="my-6 rounded-xl border border-slate-800/80 bg-slate-950/70 p-4">
-            <p className="text-xs font-bold uppercase tracking-wider text-slate-500">{isUrdu ? 'پریمیم پلان کی قیمت' : 'Premium Package Fee'}</p>
-            <h2 className="mt-1 text-3xl font-black text-emerald-400">PKR 1,999<span className="text-xs font-normal text-slate-400"> / {isUrdu ? 'مہینہ' : 'month'}</span></h2>
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-500">'Premium Package Fee'</p>
+            <h2 className="mt-1 text-3xl font-black text-emerald-400">PKR 1,999<span className="text-xs font-normal text-slate-400"> / 'month'</span></h2>
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -171,7 +171,7 @@ export default function SubscriptionGuardLayout({ children, shopId, isUrdu = fal
               rel="noopener noreferrer"
               className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3.5 text-sm font-bold transition-all hover:bg-emerald-500 text-white decoration-0"
             >
-              <span>{isUrdu ? 'واٹس ایپ پر رابطہ کریں' : 'Activate via WhatsApp'}</span>
+              <span>'Activate via WhatsApp'</span>
               <span className="rounded bg-emerald-700 px-1.5 py-0.5 font-mono text-xs text-white">{WHATSAPP_NUM}</span>
             </a>
 
@@ -193,7 +193,7 @@ export default function SubscriptionGuardLayout({ children, shopId, isUrdu = fal
               <svg className={`h-4 w-4 ${isExporting ? 'animate-bounce' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v1m-4-4l-4 4m0 0l-4-4m4 4V4" />
               </svg>
-              <span>{isExporting ? (isUrdu ? 'ایکسپورٹ ہو رہا ہے...' : 'Exporting...') : (isUrdu ? 'اپنا ڈیٹا ڈاؤن لوڈ کریں' : 'Download My Data')}</span>
+              <span>{isExporting ? 'Exporting...' : 'Download My Data'}</span>
             </button>
           </div>
         </div>
@@ -210,8 +210,8 @@ export default function SubscriptionGuardLayout({ children, shopId, isUrdu = fal
             {engine.phase === 'trial' && (
               isUrdu ? (
                 <>
-                  <span>FREE ٹرائل: {engine.daysRemaining} دن باقی ہیں — مستقل چالو کروانے کے لیے رابطہ کریں</span>
-                  <a href={WA_REDIRECT} target="_blank" rel="noopener noreferrer" className="underline font-mono bg-black/20 px-2 py-0.5 rounded text-white decoration-0">واٹس ایپ {WHATSAPP_NUM}</a>
+                  <span>FREE Trial: {engine.daysRemaining} days remaining — Contact us for activation</span>
+                  <a href={WA_REDIRECT} target="_blank" rel="noopener noreferrer" className="underline font-mono bg-black/20 px-2 py-0.5 rounded text-white decoration-0">WhatsApp {WHATSAPP_NUM}</a>
                 </>
               ) : (
                 <>
@@ -224,8 +224,8 @@ export default function SubscriptionGuardLayout({ children, shopId, isUrdu = fal
             {engine.phase === 'grace' && (
               isUrdu ? (
                 <>
-                  <span>رکنیت ختم ہو چکی ہے — {engine.daysRemaining} دن رعایتی مدت (Grace Period) باقی ہے، برائے مہربانی تجدید کریں۔</span>
-                  <a href={WA_REDIRECT} target="_blank" rel="noopener noreferrer" className="underline font-mono bg-black/20 px-2 py-0.5 rounded text-white decoration-0">تجدید کریں</a>
+                  <span>Subscription expired — {engine.daysRemaining} days grace period remaining, please renew.</span>
+                  <a href={WA_REDIRECT} target="_blank" rel="noopener noreferrer" className="underline font-mono bg-black/20 px-2 py-0.5 rounded text-white decoration-0">Renew</a>
                 </>
               ) : (
                 <>

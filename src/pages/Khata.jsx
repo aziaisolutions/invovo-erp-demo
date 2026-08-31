@@ -6,7 +6,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import EmptyState from '../components/EmptyState';
 import { formatCurrency, APP_CONFIG } from '../config/appConfig';
 
-export default function Khata() {
+export default function Ledger() {
   const { activeShopId } = useRole();
   const [activeTab, setActiveTab] = useState('CUSTOMERS'); // CUSTOMERS or SUPPLIERS
   const [loading, setLoading] = useState(true);
@@ -32,7 +32,7 @@ export default function Khata() {
   const [editDueDate, setEditDueDate] = useState('');
 
   
-  const fetchKhataData = async () => {
+  const fetchLedgerData = async () => {
     if (!activeShopId) return;
     try {
       setLoading(true);
@@ -70,7 +70,7 @@ export default function Khata() {
   };
 
   useEffect(() => {
-    fetchKhataData();
+    fetchLedgerData();
     setSelectedEntity(null);
   }, [activeShopId, activeTab]);
 
@@ -226,7 +226,7 @@ export default function Khata() {
         <>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Khata / کھاتہ</h1>
+              <h1 className="text-3xl font-bold text-white mb-2">Ledger</h1>
               <p className="text-slate-400">Manage digital ledgers, balances, and payments.</p>
             </div>
             
@@ -238,7 +238,7 @@ export default function Khata() {
                 }`}
               >
                 <Users className="w-4 h-4" />
-                Customers / گاہک
+                Customers / Customer
               </button>
               <button
                 onClick={() => setActiveTab('SUPPLIERS')}
@@ -247,7 +247,7 @@ export default function Khata() {
                 }`}
               >
                 <Truck className="w-4 h-4" />
-                Suppliers / سپلائرز
+                Suppliers
               </button>
             </div>
           </div>
@@ -353,7 +353,7 @@ export default function Khata() {
               className="flex items-center gap-2 px-5 py-2.5 bg-slate-700 hover:bg-slate-600 text-white rounded-xl font-medium transition-colors border border-slate-600"
             >
               <Printer className="w-5 h-5" />
-              Print Statement / رپورٹ پرنٹ کریں
+              Print Statement
             </button>
           </div>
 

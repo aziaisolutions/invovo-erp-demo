@@ -200,7 +200,7 @@ export default function Admin() {
         </div>
         <div>
           <h1 className="text-3xl font-black text-white tracking-tight">Command Center</h1>
-          <p className="text-indigo-400 font-bold uppercase tracking-widest text-sm">Super Admin Level Access / سپر ایڈمن تک رسائی</p>
+          <p className="text-indigo-400 font-bold uppercase tracking-widest text-sm">Super Admin Level Access</p>
         </div>
       </div>
 
@@ -208,30 +208,30 @@ export default function Admin() {
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
         
         <div className="bg-slate-800/80 backdrop-blur-md border border-slate-700 rounded-2xl p-5 shadow-lg flex flex-col justify-between">
-          <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Registered Shops<br/><span className="text-[10px] text-slate-500">کل رجسٹرڈ دکانیں</span></h3>
+          <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Registered Shops</h3>
           <p className="text-3xl font-black text-white mt-2">{metrics.total}</p>
         </div>
         
         <div className="bg-slate-800/80 backdrop-blur-md border border-slate-700 rounded-2xl p-5 shadow-lg flex flex-col justify-between relative overflow-hidden">
           <div className="absolute top-0 right-0 w-16 h-16 bg-emerald-500/10 rounded-bl-full"></div>
-          <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider z-10">Active Shops<br/><span className="text-[10px] text-slate-500">فعال دکانیں</span></h3>
+          <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider z-10">Active Shops</h3>
           <p className="text-3xl font-black text-emerald-400 mt-2 z-10">{metrics.active}</p>
         </div>
 
         <div className="bg-slate-800/80 backdrop-blur-md border border-slate-700 rounded-2xl p-5 shadow-lg flex flex-col justify-between relative overflow-hidden">
           <div className="absolute top-0 right-0 w-16 h-16 bg-yellow-500/10 rounded-bl-full"></div>
-          <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider z-10">Trial Accounts<br/><span className="text-[10px] text-slate-500">ٹرائل اکاؤنٹس</span></h3>
+          <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider z-10">Trial Accounts</h3>
           <p className="text-3xl font-black text-yellow-400 mt-2 z-10">{metrics.trial}</p>
         </div>
 
         <div className="bg-slate-800/80 backdrop-blur-md border border-slate-700 rounded-2xl p-5 shadow-lg flex flex-col justify-between relative overflow-hidden">
           <div className="absolute top-0 right-0 w-16 h-16 bg-rose-500/10 rounded-bl-full"></div>
-          <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider z-10">Suspended<br/><span className="text-[10px] text-slate-500">معطل شدہ اکاؤنٹس</span></h3>
+          <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider z-10">Suspended</h3>
           <p className="text-3xl font-black text-rose-400 mt-2 z-10">{metrics.suspended}</p>
         </div>
 
         <div className="bg-gradient-to-br from-indigo-900/50 to-slate-900 backdrop-blur-md border border-indigo-500/30 rounded-2xl p-5 shadow-xl flex flex-col justify-between md:col-span-1 col-span-2">
-          <h3 className="text-xs font-bold text-indigo-300 uppercase tracking-wider">Est. Monthly Revenue<br/><span className="text-[10px] text-indigo-400/70">متوقع ماہانہ آمدنی</span></h3>
+          <h3 className="text-xs font-bold text-indigo-300 uppercase tracking-wider">Est. Monthly Revenue</h3>
           <p className="text-2xl font-black text-white mt-2 font-mono tracking-tight">{formatCurrency(metrics.revenue)}</p>
         </div>
 
@@ -245,7 +245,7 @@ export default function Admin() {
           <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4">
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
               <Store className="w-5 h-5 text-indigo-400" />
-              Shops Registry / دکانوں کی رجسٹری
+              Shops Registry
             </h2>
             
             <div className="relative w-full sm:w-64">
@@ -419,7 +419,7 @@ export default function Admin() {
               <div>
                 <label className="flex items-center gap-2 text-sm font-bold text-slate-300 mb-3 uppercase tracking-widest">
                   <Save className="w-4 h-4 text-indigo-400" />
-                  Admin Notes / ایڈمن نوٹس
+                  Admin Notes
                 </label>
                 <textarea 
                   value={adminNotes}

@@ -157,7 +157,7 @@ export default function Inventory() {
           setCustomUnits([...customUnits, data]);
           updateIntakeLineItem(itemId, 'unit', data.unit_name);
         } catch (err) {
-          alert('Failed to save unit to database. یونٹ محفوظ نہیں ہو سکا۔');
+          alert('Failed to save unit to database. ');
         }
       }
     } else {
@@ -181,7 +181,7 @@ export default function Inventory() {
           setCustomUnits([...customUnits, data]);
           setNewProduct({ ...newProduct, unit: data.unit_name });
         } catch (err) {
-          alert('Failed to save unit to database. یونٹ محفوظ نہیں ہو سکا۔');
+          alert('Failed to save unit to database. ');
           setNewProduct({ ...newProduct, unit: 'Piece' });
         }
       } else {
@@ -646,7 +646,7 @@ export default function Inventory() {
   if (!activeShopId) {
     return (
       <div className="p-8 text-center text-white animate-in fade-in">
-        <h2 className="text-2xl font-bold mb-4">No Shop Selected / کوئی دکان منتخب نہیں ہے</h2>
+        <h2 className="text-2xl font-bold mb-4">No Shop Selected</h2>
         <p className="text-slate-400">Please select a shop workspace to view the ERP inventory suite.</p>
       </div>
     );
@@ -839,7 +839,7 @@ export default function Inventory() {
             <div className="p-6 border-b border-slate-700/50 flex justify-between items-center bg-slate-900/40">
               <h2 className="text-xl font-bold text-white flex items-center gap-2">
                 <Package className="w-6 h-6 text-indigo-400" />
-                {editingProductId ? 'Edit Core Inventory Product' : 'Add New Inventory Product Log / نیا مال درج کریں'}
+                {editingProductId ? 'Edit Core Inventory Product' : 'Add New Inventory Product Log'}
               </h2>
               <button type="button" onClick={() => setShowAddModal(false)} className="text-slate-400 hover:text-white p-2 rounded-full hover:bg-slate-700">✕</button>
             </div>
@@ -847,7 +847,7 @@ export default function Inventory() {
             <form onSubmit={handleSaveProduct} className="flex-1 overflow-y-auto p-6 space-y-5 text-left font-bold text-xs">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-xs font-bold text-slate-300 uppercase mb-1.5">Product Title * (ٹائٹل)</label>
+                  <label className="block text-xs font-bold text-slate-300 uppercase mb-1.5">Product Title</label>
                   <input 
                     type="text" 
                     required 
@@ -862,18 +862,18 @@ export default function Inventory() {
                   </datalist>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-300 uppercase mb-1.5">SKU / Barcode (بارکوڈ)</label>
+                  <label className="block text-xs font-bold text-slate-300 uppercase mb-1.5">SKU / Barcode</label>
                   <input type="text" value={newProduct.sku} onChange={e => setNewProduct({...newProduct, sku: e.target.value})} className="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white font-mono outline-none focus:border-indigo-500" placeholder="Optional SKU number..." />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-xs font-bold text-slate-300 uppercase mb-1.5">Category (قسم)</label>
+                  <label className="block text-xs font-bold text-slate-300 uppercase mb-1.5">Category</label>
                   <input type="text" value={newProduct.category} onChange={e => setNewProduct({...newProduct, category: e.target.value})} className="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none" placeholder="e.g., Electronics, Grocery..." />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-300 uppercase mb-1.5">Stock Unit (یونٹ)</label>
+                  <label className="block text-xs font-bold text-slate-300 uppercase mb-1.5">Stock Unit</label>
                   <select value={newProduct.unit} onChange={handleUnitChange} className="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white cursor-pointer outline-none">
                     <option value="Piece">Piece</option>
                     <option value="KG">KG</option>
@@ -920,7 +920,7 @@ export default function Inventory() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <label className="block text-xs font-bold text-slate-300 uppercase mb-1.5">
-                    {editingProductId ? "Current Live Warehouse Stock / موجودہ اسٹاک" : "Initial Stock Quantity (موجودہ تعداد)"}
+                    {editingProductId ? "Current Live Warehouse Stock" : "Initial Stock Quantity"}
                   </label>
                  <input 
                 type="number" inputMode="decimal" 
@@ -942,7 +942,7 @@ export default function Inventory() {
               {editingProductId && (
                 <div className="animate-in slide-in-from-top-2 duration-200">
                   <label className="block text-xs font-bold text-emerald-400 uppercase mb-1.5 border-b border-emerald-500/10 pb-0.5">
-                    + Add New Incoming Quantity / نئی تعداد درج کریں (Optional)
+                    + Add New Incoming Quantity (Optional)
                   </label>
                   <input 
                     type="number" inputMode="decimal" 
@@ -959,7 +959,7 @@ export default function Inventory() {
 
               <div className="border-t border-slate-700/60 pt-4 space-y-3">
                 <div className="flex justify-between items-center">
-                  <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider">Assigned Merchant Supplier / PC کھاتا</label>
+                  <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider">Assigned Merchant Supplier</label>
                   <button type="button" onClick={() => { setEditingSupplierId(null); setSupplierForm({ supplier_name: '', phone: '', address: '', payment_made: '0', payment_due: '0', due_date: '' }); setShowSupplierModal(true); }} className="text-[11px] text-indigo-400 hover:text-indigo-300 font-bold transition-colors cursor-pointer">+ Register Supplier Account</button>
                 </div>
                 <div className="flex gap-2">
@@ -984,7 +984,7 @@ export default function Inventory() {
                         <span>{targetProfile.supplier_name || targetProfile.name}</span>
                       </div>
                       <div className="flex justify-between text-rose-400 font-bold">
-                        <span>Total Owed Debt Balance (کل واجب الادا رقم):</span>
+                        <span>Total Owed Debt Balance:</span>
                         <span className="font-mono">{formatCurrency(targetProfile.payment_due)}</span>
                       </div>
                     </div>
@@ -1002,12 +1002,12 @@ export default function Inventory() {
                 return (
                   <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-2xl space-y-4 animate-in slide-in-from-top-2 duration-200 text-left">
                     <div className="flex justify-between items-center text-xs text-slate-300 border-b border-slate-800/80 pb-2">
-                      <span className="font-bold">Current Batch Cost (کل بِل):</span>
+                      <span className="font-bold">Current Batch Cost:</span>
                       <span className="font-mono font-black text-white text-base">{formatCurrency(currentBatchPriceTotal)}</span>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 items-center gap-4">
-                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider">Cash Paid / نقد ادائیگی</label>
+                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider">Cash Paid</label>
                       <input 
                         type="number" inputMode="decimal" 
                         min="0"
@@ -1024,12 +1024,12 @@ export default function Inventory() {
                     {dynamicBatchBalanceDue > 0 && (
                       <div className="space-y-3 pt-1 border-t border-slate-900/60 animate-in fade-in duration-150">
                         <div className="flex justify-between items-center text-xs font-bold text-rose-400">
-                          <span>Remaining Due (بقایا ادھار):</span>
+                          <span>Remaining Due:</span>
                           <span className="font-mono font-black">{formatCurrency(dynamicBatchBalanceDue)}</span>
                         </div>
                         
                         <div className="grid grid-cols-1 sm:grid-cols-2 items-center gap-4">
-                          <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider">Payment Due Date / تاریخ</label>
+                          <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider">Payment Due Date</label>
                           <input 
                             type="date"
                             required
@@ -1046,7 +1046,7 @@ export default function Inventory() {
               })()}
 
               <div className="pt-4 border-t border-slate-700/50 flex flex-col-reverse sm:flex-row gap-3">
-                <button type="button" onClick={() => setShowAddModal(false)} className="flex-1 py-2.5 px-4 bg-slate-700 text-white rounded-xl font-bold cursor-pointer">Cancel / کینسل</button>
+                <button type="button" onClick={() => setShowAddModal(false)} className="flex-1 py-2.5 px-4 bg-slate-700 text-white rounded-xl font-bold cursor-pointer">Cancel</button>
                 <button type="submit" className="flex-1 py-2.5 px-4 bg-indigo-600 text-white rounded-xl font-bold shadow-md cursor-pointer">💾 Save Product Account</button>
               </div>
             </form>
@@ -1081,7 +1081,7 @@ export default function Inventory() {
               </div>
               <div className="pt-3 flex flex-col-reverse sm:flex-row gap-2">
                 <button type="button" onClick={() => { setShowSupplierModal(false); setEditingSupplierId(null); }} className="flex-1 py-2.5 px-4 bg-slate-700 text-white rounded-xl cursor-pointer">Cancel</button>
-                <button type="submit" className="flex-1 py-2.5 px-4 bg-indigo-600 text-white rounded-xl shadow-md cursor-pointer">Save Supplier Account / محفوظ کریں</button>
+                <button type="submit" className="flex-1 py-2.5 px-4 bg-indigo-600 text-white rounded-xl shadow-md cursor-pointer">Save Supplier Account</button>
               </div>
             </form>
           </div>
@@ -1095,7 +1095,7 @@ export default function Inventory() {
         <div className="fixed inset-0 z-50 flex flex-col bg-slate-900 overflow-y-auto animate-in fade-in duration-200 w-full h-full text-xs font-bold">
           <div className="w-full min-h-screen bg-slate-900 flex flex-col">
             <div className="flex items-center justify-between px-4 sm:px-8 py-4 sm:py-6 border-b border-slate-800 bg-slate-950 sticky top-0 z-10 shadow-md">
-              <h3 className="text-xl font-black text-white tracking-tight flex items-center gap-2"><Package className="w-5 h-5 text-indigo-400" /> Wholesale Stock Procurement Sheet / مال کی خریداری کا انٹیک</h3>
+              <h3 className="text-xl font-black text-white tracking-tight flex items-center gap-2"><Package className="w-5 h-5 text-indigo-400" /> Wholesale Stock Procurement Sheet</h3>
               <button type="button" onClick={() => setShowIntakeWizard(false)} className="text-slate-400 hover:text-white p-2 bg-slate-800 rounded-full hover:bg-slate-700 cursor-pointer">✕</button>
             </div>
             
@@ -1144,7 +1144,7 @@ export default function Inventory() {
                     return (
                       <div className="mt-4 p-4 bg-slate-800/60 rounded-xl border border-slate-700/50 space-y-1.5 font-medium text-xs">
                         <div className="flex justify-between text-slate-200"><span>Merchant Supplier Name:</span><span className="font-bold">{chosen.supplier_name || chosen.name}</span></div>
-                        <div className="flex justify-between text-rose-400 font-bold"><span>Real-time Payable Credit (واجب الادا رقم):</span><span className="font-mono">{formatCurrency(parseFloat(chosen.payment_due || 0))}</span></div>
+                        <div className="flex justify-between text-rose-400 font-bold"><span>Real-time Payable Credit:</span><span className="font-mono">{formatCurrency(parseFloat(chosen.payment_due || 0))}</span></div>
                         {chosen.address && <p className="text-[10px] text-slate-500 mt-1">🏠 Location address: {chosen.address}</p>}
                       </div>
                     );
@@ -1194,7 +1194,7 @@ export default function Inventory() {
                         
                         {!item.isNew && (
                           <div className="text-[10px] text-indigo-400 font-semibold mb-1 flex items-center gap-1 bg-indigo-500/5 border border-indigo-500/10 px-2 py-1 rounded-lg w-max">
-                            📦 Dukan Par Pehle Se Maujood Stock: <span className="text-white font-mono font-black">{item.warehouse_stock}</span>
+                            📦 Existing Stock in Store: <span className="text-white font-mono font-black">{item.warehouse_stock}</span>
                           </div>
                         )}
 
@@ -1208,11 +1208,11 @@ export default function Inventory() {
                             <input type="number" inputMode="decimal" min="0" value={item.cost} onChange={e => updateIntakeLineItem(item.id, 'cost', e.target.value)} onFocus={(e) => e.target.select()} onBlur={(e) => updateIntakeLineItem(item.id, 'cost', e.target.value === '' || isNaN(parseFloat(e.target.value)) ? 0 : parseFloat(e.target.value))} className="w-full px-2 py-1 bg-slate-900 border border-slate-700 rounded text-right text-rose-400 font-mono" />
                           </div>
                           <div>
-                            <label className="block text-[10px] text-emerald-400 uppercase mb-1">Sale Rate / نئی قیمت</label>
+                            <label className="block text-[10px] text-emerald-400 uppercase mb-1">Sale Rate</label>
                             <input type="number" inputMode="decimal" min="0" value={item.sellingPrice || ''} onChange={e => updateIntakeLineItem(item.id, 'sellingPrice', e.target.value)} onFocus={(e) => e.target.select()} onBlur={(e) => updateIntakeLineItem(item.id, 'sellingPrice', e.target.value === '' || isNaN(parseFloat(e.target.value)) ? 0 : parseFloat(e.target.value))} className="w-full px-2 py-1 bg-slate-900 border border-emerald-800 rounded text-right text-emerald-400 font-mono font-bold" placeholder="New" />
                           </div>
                           <div>
-                            <label className="block text-[10px] text-slate-400 uppercase mb-1">Unit (یونٹ)</label>
+                            <label className="block text-[10px] text-slate-400 uppercase mb-1">Unit</label>
                             <select value={item.unit || 'Piece'} onChange={e => handleIntakeUnitChange(item.id, e)} className="w-full px-2 py-1.5 bg-slate-900 border border-slate-700 rounded text-white cursor-pointer outline-none text-sm">
                               <option value="Piece">Piece</option>
                               <option value="KG">KG</option>
@@ -1246,22 +1246,22 @@ export default function Inventory() {
 
                 <div className="bg-slate-950 p-5 border border-slate-800 rounded-2xl space-y-3 mt-auto">
                   <div className="flex justify-between border-b border-slate-800 pb-2.5 items-center">
-                    <span className="text-slate-400">➜ Combined Total Stock Balance (کل بِل):</span>
+                    <span className="text-slate-400">➜ Combined Total Stock Balance:</span>
                     <span className="font-mono text-white font-black text-xl">{formatCurrency(intakeGrandTotal)}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-slate-400">Cash Paid / نقد ادائیگی *</span>
+                    <span className="text-slate-400">Cash Paid *</span>
                     <input type="number" inputMode="decimal" min="0" required value={intakeCash} onChange={e => setIntakeCash(e.target.value === '' ? '' : Math.max(0, parseFloat(e.target.value) || 0))} onFocus={(e) => e.target.select()} onBlur={(e) => setIntakeCash(e.target.value === '' || isNaN(parseFloat(e.target.value)) ? 0 : Math.max(0, parseFloat(e.target.value)))} className="w-full sm:w-32 px-3 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-emerald-400 font-mono text-right text-sm" />
                   </div>
                   
                   {(intakeGrandTotal - intakeCash > 0) && (
                     <div className="space-y-3 pt-2.5 border-t border-slate-900 animate-in slide-in-from-top-2 duration-150 text-left">
                       <div className="flex justify-between items-center text-xs">
-                        <span className="text-rose-400">Remaining Balance (بقایا ادھار):</span>
+                        <span className="text-rose-400">Remaining Balance:</span>
                         <span className="font-mono text-rose-400 font-black">{formatCurrency(intakeGrandTotal - intakeCash)}</span>
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 items-center gap-4">
-                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider">Payment Due Date / تاریخ *</label>
+                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider">Payment Due Date *</label>
                         <input 
                           type="date"
                           required

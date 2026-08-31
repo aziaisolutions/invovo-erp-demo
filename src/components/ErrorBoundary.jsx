@@ -29,8 +29,8 @@ export default class ErrorBoundary extends React.Component {
             <p className="text-slate-400 text-sm mb-6">Please refresh the page to restore system memory.</p>
             
             <div className="border-t border-slate-800/80 my-4 pt-4 font-urdu" dir="rtl">
-              <h2 className="text-xl font-bold text-white mb-2">کچھ غلط ہو گیا ہے۔</h2>
-              <p className="text-slate-400 text-sm mb-4">سستم کو دوبارہ فعال کرنے کے لیے برائے مہربانی پیج ریفریش کریں۔</p>
+              <h2 className="text-xl font-bold text-white mb-2">Something went wrong.</h2>
+              <p className="text-slate-400 text-sm mb-4">Please refresh the page to reactivate the system.</p>
             </div>
             <button 
               onClick={() => window.location.reload()} 
