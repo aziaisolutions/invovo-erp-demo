@@ -184,7 +184,7 @@ export default function Dashboard() {
       if (timeFilter === 'today') invoicesQuery = invoicesQuery.gte('created_at', getStartOfTodayISO());
       else invoicesQuery = invoicesQuery.gte('created_at', dateThreshold);
 
-      // 🔒 SYNCHRONIZATION BARRIER: Dashboard analytics ko accurate rakhne k liye only active accounts fetch check
+      // 🔒 SYNCHRONIZATION BARRIER: Dashboard analytics to keep Dashboard analytics accurate only active accounts fetch check
       const [
         productsRes,
         txLogsRes,
@@ -706,7 +706,7 @@ export default function Dashboard() {
                     <option value="Transport / Petrol">Transport / Petrol (سفر/پٹرول)</option>
                     <option value="Labor / Majdoori">Labor / Majdoori (مزدوری)</option>
                     <option value="Utility Bills">Utility Bills (بل)</option>
-                    <option value="Shop Maintenance">Shop Maintenance (دکان ka خرچہ)</option>
+                    <option value="Shop Maintenance">Shop Maintenance & Utilities</option>
                     <option value="Other">+ Other / نیا خرچہ (Write Custom Type)</option>
                   </select>
                   {expenseForm.category === 'Other' && (

@@ -76,7 +76,7 @@ export default function Expenses() {
         const liveTodayLimit = new Date();
         liveTodayLimit.setHours(23, 59, 59, 999); // Allow absolute full today timestamp margin
         if (selectedExpDate > liveTodayLimit) {
-          alert("🚨 ERROR: Galti se aane wali koi tareekh (Future Date) select ho gayi hai! Meharbani karke aaj ki ya guzri hui koi valid expense date select karein.");
+          alert("Error: Future dates cannot be selected. Please select a valid date.");
           return;
         }
       }

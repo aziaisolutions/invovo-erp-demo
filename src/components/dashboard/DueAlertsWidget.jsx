@@ -5,12 +5,12 @@ import { formatCurrency, APP_CONFIG } from '../../config/appConfig';
 
 export default function DueAlertsWidget({ dueAlerts = [], shopName = '' }) {
   const compileRecoveryTextMessage = (partyAmount) => {
-    return `Invovo ERP Reminder. Dear Customer, aap ka outstanding balance ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(partyAmount).toLocaleString()} waajib-ul-ada hai. Kindly jald dukan par tashreef la kar khata saaf karein. Shop: ${shopName}`;
+    return `Invovo ERP Reminder: Dear Customer, your outstanding balance of ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(partyAmount).toLocaleString()} is currently due. Please clear this balance at your earliest convenience. Shop: ${shopName}`;
   };
 
   const triggerFreeWhatsAppCommunication = (partyPhone, partyAmount) => {
     if (!partyPhone || partyPhone.trim() === '' || partyPhone.length < 10) {
-      alert("🚨 Error: Is account ka WhatsApp mobile number khate mein darj nahi hai!");
+      alert("🚨 Error: WhatsApp mobile number is not registered for this account!");
       return;
     }
     const cleanPhone = partyPhone.replace(/\D/g, '');
@@ -20,7 +20,7 @@ export default function DueAlertsWidget({ dueAlerts = [], shopName = '' }) {
 
   const triggerCarrierGsmTextSystem = (partyPhone, partyAmount) => {
     if (!partyPhone || partyPhone.trim() === '' || partyPhone.length < 10) {
-      alert("🚨 Error: Is customer ka mobile contact number khate mein darj nahi hai!");
+      alert("🚨 Error: Mobile contact number is not registered for this customer!");
       return;
     }
     const cleanPhone = partyPhone.replace(/\D/g, '');
@@ -34,7 +34,7 @@ export default function DueAlertsWidget({ dueAlerts = [], shopName = '' }) {
     <div className="bg-white dark:bg-[#121b36] border-l-4 border-l-amber-500 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
       <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-700/50 pb-3">
         <h3 className="text-base font-black uppercase text-amber-600 dark:text-amber-400 flex items-center gap-1.5">
-          <Calendar className="w-5 h-5 text-amber-500" /> Accounts Due Date Alerts / ادائیگی کا وعدہ الرٹ ({dueAlerts.length})
+          <Calendar className="w-5 h-5 text-amber-500" /> Accounts Due Date Alerts ({dueAlerts.length})
         </h3>
       </div>
       <div className="overflow-x-auto">

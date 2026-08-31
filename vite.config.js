@@ -1,21 +1,21 @@
 // vite.config.js
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-// Yahan hum PWA ke master module ko shamil (import) kar rahe hain:
+// Importing the master PWA module:
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
   plugins: [
-    // Pehle se majood React ka plugin:
+    // Existing React plugin:
     react(),
     
-    // Hamara naya shamil kiya hua PWA Configuration Setup:
+    // Our newly integrated PWA Configuration Setup:
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
       manifest: {
-        short_name: 'Smart Hisab',
-        name: 'Smart Hisab - Shop Inventory & Khata SaaS',
+        short_name: 'Invovo ERP',
+        name: 'Invovo ERP - Cloud Inventory & POS SaaS',
         id: '/',
         start_url: '/',
         display: 'standalone',

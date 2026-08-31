@@ -185,11 +185,11 @@ export default function InvovoAdminControl() {
     // Safety Alert pop-up
     const confirmPayment = window.confirm(
       `⚠️ PAYMENT CONFIRMATION:\n\n` +
-      `Kya aapne "${shopName}" se One-Time License Activation fess (Rs. 14,999) cash ya bank transfer ke zariye collect kar li hai?\n\n` +
-      `Ok dabane par dukan active ho jayegi aur 1-Year Cloud Sync start will be.`
+      `Have you collected the One-Time License Activation fee (Rs. 14,999) via cash or bank transfer from "${shopName}"?\n\n` +
+      `Pressing OK will activate the store and begin the 1-Year Cloud Sync.`
     );
 
-    if (!confirmPayment) return; // Agar cancel kiya to kuch nahi hoga
+    if (!confirmPayment) return; // If cancelled, no action will be taken
 
     setActionLoading(`${shopId}-activation`);
     const date = new Date();
@@ -226,11 +226,11 @@ export default function InvovoAdminControl() {
     // Safety Alert pop-up
     const confirmPayment = window.confirm(
       `⚠️ RENEWAL CONFIRMATION:\n\n` +
-      `Kya aapne "${shopName}" se Annual Cloud Sync Renewal Fee (Rs. 4,000) collect kar li hai?\n\n` +
-      `Ok dabane par dukan ka cloud backup mazeed 1 saal (365 days) ke liye barha dia jayega.`
+      `Have you collected the Annual Cloud Sync Renewal Fee (Rs. 4,000) from "${shopName}"?\n\n` +
+      `Pressing OK will extend the store's cloud backup for an additional 1 year (365 days).`
     );
 
-    if (!confirmPayment) return; // Agar cancel kiya to kuch nahi hoga
+    if (!confirmPayment) return; // If cancelled, no action will be taken
 
     setActionLoading(`${shopId}-renewal`);
     const baseDate = (shop?.expires_at && new Date(shop.expires_at) > new Date()) ? new Date(shop.expires_at) : new Date();
@@ -266,9 +266,9 @@ export default function InvovoAdminControl() {
     if (!shop.is_activated) {
       const isExpired = diffDays <= 0;
       return {
-        status: isExpired ? "Expired / معطل ہے" : "Trial Active / ٹرائل چالو ہے",
+        status: isExpired ? "Expired" : "Trial Active",
         label: "Activation Pending (Rs. 14,999)",
-        labelUrdu: "One-Time Fee واجب الادا ہے",
+        labelUrdu: "One-Time Fee Due",
         color: isExpired ? "bg-red-500/10 text-red-400 border-red-500/20" : "bg-amber-500/10 text-amber-400 border-amber-500/20",
         actionText: "Activate One-Time (14,999)",
         actionType: "activate"
@@ -280,7 +280,7 @@ export default function InvovoAdminControl() {
       return {
         status: `Annual Due in ${diffDays} Days`,
         label: "Renewal Approaching (Rs. 4,000)",
-        labelUrdu: "سالانہ کلاؤڈ فیس واجب الادا ہے",
+        labelUrdu: "Annual Cloud Fee Due",
         color: "bg-amber-500/15 text-amber-400 border-amber-500/30 animate-pulse",
         actionText: "Renew Cloud Sync (4,000)",
         actionType: "renew"
@@ -290,9 +290,9 @@ export default function InvovoAdminControl() {
     // 🔴 3. If activated, but annual cloud sync has completely expired
     if (shop.is_activated && diffDays <= 0) {
       return {
-        status: "Annual Expired / معطل ہے",
+        status: "Annual Expired",
         label: "Cloud Suspended (Rs. 4,000)",
-        labelUrdu: "سالانہ سرور فیس واجب الادا ہے",
+        labelUrdu: "Annual Server Fee Due",
         color: "bg-rose-500/10 text-rose-400 border-rose-500/20",
         actionText: "Renew Cloud Sync (4,000)",
         actionType: "renew"
@@ -301,9 +301,9 @@ export default function InvovoAdminControl() {
 
     // 🟢 4. Everything is clean and green
     return {
-      status: "Active / چالو ہے",
+      status: "Active",
       label: "Cloud Synced & Safe",
-      labelUrdu: "کلاؤڈ سروس چالو ہے",
+      labelUrdu: "Cloud Service Active",
       color: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
       actionText: "Extend Support (+365 Days)",
       actionType: "renew"
@@ -324,7 +324,7 @@ export default function InvovoAdminControl() {
         <div className="max-w-md w-full bg-slate-900 border border-rose-500/30 p-8 rounded-2xl shadow-2xl text-center">
           <ShieldAlert className="w-16 h-16 text-rose-500 mx-auto mb-6" />
           <h1 className="text-2xl font-black text-white mb-2 uppercase tracking-widest">Access Denied</h1>
-          <h2 className="text-lg font-bold text-rose-400 mb-6">غیر مجاز رسائی</h2>
+          <h2 className="text-lg font-bold text-rose-400 mb-6">Unauthorized Access</h2>
           <p className="text-slate-400 text-sm font-medium border-t border-slate-800 pt-6">
             This module is strictly isolated for absolute Super Admin authorization keys only. 
             Automated connection drop executed.
@@ -610,7 +610,7 @@ export default function InvovoAdminControl() {
                                       const phone = shop.whatsapp_number || shop.phone;
                                       if (!phone) return alert('No phone number provided');
                                       const date = new Date(shop.expires_at || shop.created_at).toLocaleDateString('en-GB');
-                                      const msg = encodeURIComponent(`Invovo ERP Status Alert: App ki dukan ${shop.name || shop.shop_name || 'Store'} ka cloud activation status update kar dia gaya hai. Nayi Expiry Tareekh: ${date}. Shukriya!`);
+                                      const msg = encodeURIComponent(`Invovo ERP Status Alert: Your store ${shop.name || shop.shop_name || 'Store'}'s cloud activation status has been updated. New Expiry Date: ${date}. Thank you!`);
                                       window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
                                     }}
                                     className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-bold transition-colors border border-slate-700 inline-flex items-center gap-1.5"
@@ -762,7 +762,7 @@ export default function InvovoAdminControl() {
                           className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-sm font-bold transition-all disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-indigo-500/20"
                         >
                           {settingsSaving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <ShieldCheck className="w-4 h-4" />}
-                          ترتیبات محفوظ کریں / Save Settings
+                          Save Settings
                         </button>
                       </div>
                       

@@ -878,7 +878,7 @@ export default function Invoices() {
         const soldQty = parseFloat(item.quantity) || 0;
 
         if (returnQty < 0) {
-          alert("Return quantity negative nahi ho sakti!");
+          alert("Return quantity cannot be negative.");
           setLoading(false);
           return;
         }

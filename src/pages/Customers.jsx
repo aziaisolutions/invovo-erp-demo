@@ -28,8 +28,8 @@ export default function Customers() {
     // Check current status (default to active if null/empty)
     const currentStatus = selectedEntity.khata_status === 'closed' ? 'active' : 'closed';
     const confirmMsg = currentStatus === 'closed' 
-      ? "🔒 Kya aap is gahak ka maujooda khata session mukammal tor pr close krna chahte hain?" 
-      : "🔓 Kya aap is khata session ko dobara naye transactions k liye Re-open krna chahte hain?";
+      ? "🔒 Do you want to completely close the current customer session?" 
+      : "🔓 Do you want to Re-open this session for new transactions?";
       
     if (!window.confirm(confirmMsg)) return;
 
@@ -53,7 +53,7 @@ export default function Customers() {
         c.id === selectedEntity.id ? { ...c, khata_status: currentStatus } : c
       ));
 
-      alert(currentStatus === 'closed' ? "Khata session kamyabi se lock ho gya hai!" : "Khata session dobara active kr dia gya hai!");
+      alert(currentStatus === 'closed' ? "Customer session has been locked successfully!" : "Customer session has been re-activated!");
     } catch (err) {
       console.error("Session Toggle Error:", err);
       alert("Database error: Session status change failed.");
@@ -92,7 +92,7 @@ export default function Customers() {
         .select('*')
         .eq('shop_id', activeShopId)
         .neq('status', 'archived')
-        .order('khata_status', { ascending: true }) // Active top sequence par, Closed automatic niche logs mein
+        .order('khata_status', { ascending: true }) // Active on top, Closed pushed to bottom logs
         .order('created_at', { ascending: false });
       if (eError) throw eError;
 
@@ -113,7 +113,7 @@ export default function Customers() {
       // 3. Frontend Calculations with Array Mapping
       const allInvoices = invData || [];
       const computedCustomers = (entityData || []).map(cust => {
-        // Name aur ID dono se exact matching
+        // Exact matching by Name and ID
         const custInvoices = allInvoices.filter(inv => 
           (inv.customer_id && String(inv.customer_id) === String(cust.id)) || 
           (inv.customer_name && inv.customer_name.trim().toLowerCase() === cust.full_name.trim().toLowerCase())
@@ -122,16 +122,16 @@ export default function Customers() {
         const totalSales = custInvoices.reduce((sum, inv) => sum + (Number(inv.grand_total) || 0), 0);
         const netUdhar = custInvoices.reduce((sum, inv) => sum + (Number(inv.balance_due) || 0), 0);
         
-        // Sab se latest invoice ki due date nikalna
+        // Extract due date of the latest invoice
         const sortedInvs = [...custInvoices].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
         const invoiceDueDate = sortedInvs[0]?.due_date ? sortedInvs[0].due_date.split('-').reverse().join('/') : null;
 
         return {
           ...cust,
-          invoices: custInvoices, // 🌟 Yeh line zaroori thi statement box ke liye!
+          invoices: custInvoices, // 🌟 Required for statement box!
           total_sales_bill: totalSales, 
           balance_due: netUdhar,
-          due_date: invoiceDueDate || cust.due_date // 🌟 Due date pass karna main table ke liye
+          due_date: invoiceDueDate || cust.due_date // 🌟 Pass due date to the main table
         };
       });
 
@@ -247,10 +247,10 @@ export default function Customers() {
       const finalPaid = isSale ? rec : parseFloat(tx.amount || tx.cash_paid_received || 0);
       
       if (isSale) {
-        accumulativeBalance += amt;       // Bill bana to udhar barha
-        accumulativeBalance -= finalPaid; // Usi bill par milne wala cash minus hua
+        accumulativeBalance += amt;       // Bill increases debt
+        accumulativeBalance -= finalPaid; // Cash received on bill reduces debt
       } else {
-        accumulativeBalance -= finalPaid; // Manual payment wasooli par udhar mazeed kam hua
+        accumulativeBalance -= finalPaid; // Manual payment further reduces debt
       }
       
       return {
@@ -270,7 +270,7 @@ export default function Customers() {
     const userChoice = window.prompt(
       `Customer Management Center:\n========================\nChoose Action for: ${targetCust.full_name || targetCust.name}\n\n` +
       `Type '1' : Soft Delete / Archive Customer Profile Only\n` +
-      `Type '2' : Choti Maal Wapsi (Partial/Multi-Item Sales Return Engine)`
+      `Type '2' : Partial/Multi-Item Sales Return Engine`
     );
 
     if (!userChoice) return;
@@ -280,10 +280,10 @@ export default function Customers() {
     // =========================================================================
     if (userChoice === '1') {
       if (Math.abs(parseFloat(targetCust.payment_due || targetCust.balance_due || 0)) > 0) {
-        alert("🚨 SAFETY LOCK: Is khate mein abhi udhar baqi hai! Archive karne se pehle poora hisab clear (0) karein.");
+        alert("🚨 SAFETY LOCK: There is an outstanding balance in this account! Please clear the balance (0) before archiving.");
         return;
       }
-      const confirmLog = window.confirm("Are you sure you want to archive this customer profile? Active directory se name ghayab will be.");
+      const confirmLog = window.confirm("Are you sure you want to archive this customer profile? The name will be removed from the active directory.");
       if (!confirmLog) return;
       
       setLoading(true);
@@ -311,7 +311,7 @@ export default function Customers() {
       setLoading(true);
 
       try {
-        // 🌟 PERMANENT FIX: Fetch actual items sold to this customer from their invoices
+        // 🌟 PERMANENT FIX: Fetch actual items sold to this customer from invoices
         const { data: custInvoices, error: invFetchErr } = await supabase
           .from('invoices')
           .select('items')
@@ -342,7 +342,7 @@ export default function Customers() {
         const allProds = Object.values(soldItemsMap);
 
         if (allProds.length === 0) {
-          alert("🚨 Is gahak ko abhi tak koi maal nahi becha gaya!");
+          alert("🚨 No items have been sold to this customer yet!");
           setLoading(false);
           return;
         }
@@ -355,12 +355,12 @@ export default function Customers() {
 
         // Master wizard loop for multi-items
         while (continueAdding) {
-          let itemMenuString = `Gahak Se Wapsi Ke Liye Maal Select Karein [Item #${returnBatchItems.length + 1}]:\n`;
+          let itemMenuString = `Select Item for Customer Return [Item #${returnBatchItems.length + 1}]:\n`;
           itemMenuString += `====================================\n`;
           allProds.forEach((prod, index) => {
             itemMenuString += `${index + 1}) ${prod.name} (Sold Qty: ${prod.total_sold_qty} | Rate: Rs.${prod.rate})\n`;
           });
-          itemMenuString += `\nOption Number Darj Karein (e.g., 1 ya 2):`;
+          itemMenuString += `\nEnter Option Number (e.g., 1 or 2):`;
 
           const userSelectionInput = window.prompt(itemMenuString);
           if (!userSelectionInput || userSelectionInput.trim() === "") {
@@ -371,38 +371,38 @@ export default function Customers() {
           const selectedProduct = allProds[selectionIndex];
 
           if (!selectedProduct) {
-            alert("🚨 Galt Option select kia gaya hai! Re-try karein.");
+            alert("🚨 Invalid Option selected! Please try again.");
             continue;
           }
 
           // Quantity Input
           const inputQty = window.prompt(
-            `Gahak Maal Wapsi [${selectedProduct.name}]:\n====================================\n` +
-            `Gahak ko total becha gaya: ${selectedProduct.total_sold_qty}\n\nGahak kitni Quantity wapis de raha hai?`
+            `Customer Sales Return [${selectedProduct.name}]:\n====================================\n` +
+            `Total Quantity Sold to Customer: ${selectedProduct.total_sold_qty}\n\nHow much Quantity is the Customer returning?`
           );
           const returnQty = parseFloat(inputQty);
 
           if (isNaN(returnQty) || returnQty <= 0) {
-            alert("🚨 Galt Quantity! Is item ki entry cancel ho gayi.");
+            alert("🚨 Invalid Quantity! Entry for this item has been cancelled.");
             continue;
           }
 
           if (returnQty > selectedProduct.total_sold_qty) {
-            alert(`🚨 Invalid! Gahak ne sirf ${selectedProduct.total_sold_qty} khareeda tha. Aap zyada wapis nahi le sakte.`);
+            alert(`🚨 Invalid! The customer only purchased ${selectedProduct.total_sold_qty}. You cannot accept more returns than sold.`);
             continue;
           }
 
           // Auto-Rate Fetching & Confirmation
           const defaultRate = parseFloat(selectedProduct.rate || 0);
           const inputRate = window.prompt(
-            `Maal Wapsi Rate [${selectedProduct.name}]:\n====================================\n` +
-            `System detected system rate: Rs. ${defaultRate}\n\nAgar isi rate par wapis lena hai to direct Enter dabayein, warna naya rate likhein:`
+            `Sales Return Rate [${selectedProduct.name}]:\n====================================\n` +
+            `System detected rate: Rs. ${defaultRate}\n\nPress Enter to use this rate, or enter a new rate:`
           , defaultRate);
 
           const finalRate = parseFloat(inputRate);
 
           if (isNaN(finalRate) || finalRate <= 0) {
-            alert("🚨 Galt Rate! Is item ki entry cancel ho gayi.");
+            alert("🚨 Invalid Rate! Entry for this item has been cancelled.");
             continue;
           }
 
@@ -416,7 +416,7 @@ export default function Customers() {
             rate: finalRate
           });
 
-          const nextChoice = window.prompt("Kya koi aur item bhi is sales return bill mein shamil karna hai?\nType 'YES' doosra item daalne ke liye, ya direct Enter dabayein finalize karne ke liye:");
+          const nextChoice = window.prompt("Would you like to add another item to this return bill?\nType 'YES' to add another item, or press Enter to finalize:");
           if (!nextChoice || nextChoice.trim().toUpperCase() !== 'YES') {
             continueAdding = false;
           }
@@ -429,7 +429,7 @@ export default function Customers() {
 
         setLoading(true);
 
-        // A. Update live stocks sequentially (Adding back to inventory stock)
+        // A. Update live stocks sequentially (Add back to inventory)
         for (const item of returnBatchItems) {
           const { data: liveProduct } = await supabase
             .from('products')
@@ -443,7 +443,7 @@ export default function Customers() {
           }
         }
 
-        // B. Apply calculation adjustments against customer profile
+        // B. Apply calculation adjustments
         const currentCustomerDebt = parseFloat(targetCust.payment_due || targetCust.balance_due || 0);
         const newCustomerDebt = Math.max(0, currentCustomerDebt - totalReturnBillAmount);
 
@@ -474,14 +474,14 @@ export default function Customers() {
           amount: totalReturnBillAmount,
           cash_paid_received: 0, 
           remaining_balance: newCustomerDebt,
-          notes: `Gahak Maal Wapsi (Sales Return Voucher): Aaya [ ${itemSummaryNotes} ] back to shop.`
+          notes: `Customer Sales Return Voucher: Received [ ${itemSummaryNotes} ] back to inventory.`
         }]);
 
         alert(
           `🎉 ERP Multi-Item Sales Return Complete!\n\n` +
-          `Total Items Recieved Back: ${returnBatchItems.length}\n` +
+          `Total Items Received Back: ${returnBatchItems.length}\n` +
           `Total Returned Credit: Rs. ${totalReturnBillAmount.toLocaleString()}\n` +
-          `Gahak ka baqi Udhar ab Rs. ${newCustomerDebt.toLocaleString()} reh gaya hai!`
+          `The customer's remaining debt is now Rs. ${newCustomerDebt.toLocaleString()}!`
         );
 
       } catch (err) {
@@ -506,7 +506,7 @@ export default function Customers() {
       if (error) throw error;
       setShowAddCustomerModal(false);
       setNewCustomer({ full_name: '', phone: '', address: '' });
-      alert("Gahak ka khata kamyabi se ban gaya hai!");
+      alert("Customer profile created successfully!");
       await fetchCustomersData();
     } catch (err) {
       alert("Failed to create customer profile.");
@@ -548,7 +548,7 @@ export default function Customers() {
     if (isNaN(amount) || amount <= 0) return;
 
     try {
-      // ⚡ 1. Bilkul fresh transaction logs se real-time balance calculate karein taake database errors clean ho jayein
+      // ⚡ 1. Calculate real-time balance from fresh transaction logs to avoid database errors
       const { data: txList, error: txListErr } = await supabase
         .from('transactions')
         .select('*')
@@ -557,7 +557,7 @@ export default function Customers() {
       
       if (txListErr) throw txListErr;
 
-      // Sab se fresh calculated outstanding balance nikalain
+      // Extract the latest calculated outstanding balance
       let currentCalculatedBalance = (txList || []).reduce((acc, tx) => {
         const tType = String(tx.transaction_type).toLowerCase();
         const amt = parseFloat(tx.total_bill || tx.amount || 0);
@@ -571,7 +571,7 @@ export default function Customers() {
         }
       }, 0);
 
-      // ⚡ 2. Nayi transaction ke mutabiq new balance nikalain
+      // ⚡ 2. Calculate new balance based on the new transaction
       let newBalance = currentCalculatedBalance;
       let totalBill = 0;
       let cashPaidReceived = 0;
@@ -585,7 +585,7 @@ export default function Customers() {
         cashPaidReceived = amount;
       }
 
-      // Payload baki wahi rahega...
+      // Payload remains the same...
       const txPayload = {
         shop_id: activeShopId,
         party_id: parseInt(selectedEntity.id),
@@ -745,7 +745,7 @@ export default function Customers() {
               <div>
                 <h2 className="text-[11px] font-black tracking-widest text-indigo-300 uppercase font-mono bg-slate-950/40 px-2 py-0.5 rounded w-max border border-indigo-500/20 backdrop-blur-sm">Accounts Receivable</h2>
                 <h1 className="text-2xl md:text-3xl font-black text-white tracking-tight uppercase mt-1.5" style={{ textShadow: '0 2px 20px rgba(219,39,119,0.6), 0 4px 10px rgba(99,102,241,0.6)' }}>
-                  Customers Ledger / <span className="text-indigo-300 font-extrabold">گاہکوں کا کھاتہ</span>
+                  Customers Ledger / <span className="text-indigo-300 font-extrabold">Customer Ledger</span>
                 </h1>
                 <p className="text-xs text-slate-200 mt-1.5 font-medium tracking-wide flex items-center gap-2 drop-shadow-md">
                   <span className="font-bold">Invovo ERP Suite</span> • <span className="text-slate-300">Party Profiles</span>
@@ -787,7 +787,7 @@ export default function Customers() {
                       <th className="p-5 font-bold text-left whitespace-nowrap">Customer Code</th>
                       <th className="p-5 font-bold text-left whitespace-nowrap">Customer Name</th>
                       <th className="p-5 font-bold text-left whitespace-nowrap">Total Sales Bill</th>
-                      <th className="p-5 font-bold text-left whitespace-nowrap">Net Udhar Balance</th>
+                      <th className="p-5 font-bold text-left whitespace-nowrap">Net Due Balance</th>
                       <th className="p-5 font-bold text-left whitespace-nowrap">Status</th>
                       <th className="p-5 font-bold text-left whitespace-nowrap">Date Created</th>
                       <th className="p-5 font-bold text-right whitespace-nowrap">Actions</th>
@@ -926,7 +926,7 @@ export default function Customers() {
                       if (!latestTx.isSale) {
                         const paymentAmount = Number(latestTx.rec || 0);
                         const previousBaqi = totalBaqi + paymentAmount;
-                        contextBlock = `📊 *Pehle Ka Total Baqi:* ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(previousBaqi).toLocaleString()}\n💵 *Ab Ada Kiye Gaye (Payment):* ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(paymentAmount).toLocaleString()}\n🔹 *Ab Total Remaining Baqi:* ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(totalBaqi).toLocaleString()}`;
+                        contextBlock = `📊 *Previous Total Balance:* ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(previousBaqi).toLocaleString()}\n💵 *Payment Made:* ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(paymentAmount).toLocaleString()}\n🔹 *New Remaining Balance:* ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(totalBaqi).toLocaleString()}`;
                       } else {
                         const billTotal = Number(latestTx.amt || 0);
                         const cashPaid = Number(latestTx.rec || 0);
@@ -940,7 +940,7 @@ export default function Customers() {
                       `• *Phone:* ${activeShopInfo?.phone || '03336825383'}\n` +
                       `• *Address:* ${activeShopInfo?.address || 'District Mianwali'}\n\n` +
                       `Dear *${selectedEntity?.full_name || selectedEntity?.name || 'Gāhak'}*,\n` +
-                      `Aap ke khate ki mukammal live summary niche maujood hai:\n\n` +
+                      `Your complete live ledger summary is provided below:\n\n` +
                       `${contextBlock}\n\n` +
                       `---\n` +
                       `_Powered by Invovo | Invovo ERP_`;
@@ -963,7 +963,7 @@ export default function Customers() {
                 onClick={() => {
                   const activePhone = selectedEntity?.phone || '';
                   if (!activePhone || activePhone.trim() === '' || activePhone.length < 10) {
-                    alert("🚨 Error: Is customer ka mobile number khate mein darj nahi hai!");
+                    alert("🚨 Error: Mobile number is not registered for this customer!");
                     return;
                   }
                   
@@ -978,11 +978,11 @@ export default function Customers() {
                     if (!latestTx.isSale) {
                       const paymentAmount = Number(latestTx.rec || 0);
                       const previousBaqi = totalBaqi + paymentAmount;
-                      smsContext = `Pehle Ka Baqi: ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(previousBaqi).toLocaleString()}, Received: ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(paymentAmount).toLocaleString()}, Net Baqi: ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(totalBaqi).toLocaleString()}`;
+                      smsContext = `Previous Balance: ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(previousBaqi).toLocaleString()}, Received: ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(paymentAmount).toLocaleString()}, Net Balance: ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(totalBaqi).toLocaleString()}`;
                     } else {
                       const billTotal = Number(latestTx.amt || 0);
                       const cashPaid = Number(latestTx.rec || 0);
-                      smsContext = `Bill: ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(billTotal).toLocaleString()}, Cash Paid: ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(cashPaid).toLocaleString()}, Net Baqi: ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(totalBaqi).toLocaleString()}`;
+                      smsContext = `Bill: ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(billTotal).toLocaleString()}, Cash Paid: ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(cashPaid).toLocaleString()}, Net Balance: ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(totalBaqi).toLocaleString()}`;
                     }
                   }
 
@@ -1205,14 +1205,14 @@ export default function Customers() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
           <div className="bg-slate-800 border border-slate-700 shadow-2xl rounded-3xl w-full max-w-md max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between p-6 border-b border-slate-700/50">
-              <h3 className="text-xl font-bold text-white">Log Manual Khata Transaction</h3>
+              <h3 className="text-xl font-bold text-white">Log Manual Ledger Transaction</h3>
               <button type="button" onClick={() => setShowTxModal(false)} className="p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center text-slate-400 hover:text-white"><X className="w-5 h-5" /></button>
             </div>
             <form onSubmit={handleSaveTransaction} className="p-6 space-y-5 text-xs font-bold">
               <div>
                 <label className="block text-slate-300 mb-1">Transaction Type</label>
                 <select value={newTx.type} onChange={e => setNewTx({...newTx, type: e.target.value})} className="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-700 rounded-xl text-white cursor-pointer">
-                  <option value="sale">Total Bill Owed (Udhar / Sale)</option>
+                  <option value="sale">Total Bill Owed (Credit / Sale)</option>
                   <option value="payment">Cash Received (Wasooli / Credit)</option>
                 </select>
               </div>
