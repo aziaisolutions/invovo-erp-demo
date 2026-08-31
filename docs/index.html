@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invovo ERP - Documentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #10b981;
+            --bg: #0f172a;
+            --sidebar: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        a { color: var(--primary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background-color: var(--sidebar);
+            border-right: 1px solid var(--border);
+            padding: 2rem 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        .sidebar h2 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .nav-link {
+            display: block;
+            padding: 10px 15px;
+            color: var(--text-muted);
+            border-radius: 6px;
+            margin-bottom: 5px;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 3rem 4rem;
+            max-width: 900px;
+        }
+        section { margin-bottom: 4rem; padding-top: 2rem; }
+        h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; color: #fff; }
+        h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: #fff; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+        p { margin-bottom: 1rem; color: var(--text-muted); }
+        ul, ol { margin-bottom: 1rem; padding-left: 1.5rem; color: var(--text-muted); }
+        li { margin-bottom: 0.5rem; }
+        
+        .code-block {
+            background-color: #0b1120;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-family: monospace;
+            color: #38bdf8;
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+        }
+        
+        .alert {
+            background-color: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid #f59e0b;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1.5rem 0;
+            color: #fcd34d;
+        }
+
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid var(--border); }
+            .main-content { margin-left: 0; padding: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>📗 Invovo ERP</h2>
+        <nav>
+            <a href="#getting-started" class="nav-link">Getting Started</a>
+            <a href="#supabase-setup" class="nav-link">Supabase Database Setup</a>
+            <a href="#environment-variables" class="nav-link">Environment Variables</a>
+            <a href="#customization" class="nav-link">Customization & Branding</a>
+            <a href="#deployment" class="nav-link">Deployment (Production)</a>
+            <a href="#faqs" class="nav-link">FAQs & Troubleshooting</a>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <section id="getting-started">
+            <h1>Documentation</h1>
+            <p>Welcome to the official technical documentation for Invovo ERP SaaS Edition. This guide will walk you through the entire deployment and customization process.</p>
+            
+            <h3>Prerequisites</h3>
+            <ul>
+                <li><strong>Node.js:</strong> v18.0 or higher installed.</li>
+                <li><strong>Supabase:</strong> A free account at supabase.com.</li>
+            </ul>
+
+            <h3>Local Installation</h3>
+            <p>Extract the downloaded ZIP file, open your terminal in the root directory, and run the following commands:</p>
+            <div class="code-block">
+                npm install<br>
+                npm run dev
+            </div>
+        </section>
+
+        <section id="supabase-setup">
+            <h3>Supabase Database Setup</h3>
+            <p>Invovo ERP uses Supabase (PostgreSQL) for its backend. We have included a complete automated schema script for you.</p>
+            <ol>
+                <li>Create a new project in your Supabase Dashboard.</li>
+                <li>Navigate to the <strong>SQL Editor</strong> from the left sidebar.</li>
+                <li>Click <strong>New Query</strong>.</li>
+                <li>Open the <code>supabase_schema.sql</code> file located in the root of your project folder.</li>
+                <li>Copy the entire content, paste it into the SQL Editor, and hit <strong>Run</strong>.</li>
+            </ol>
+            <div class="alert">
+                <strong>Important:</strong> After running the schema, you must manually create a User from the Supabase <em>Authentication</em> dashboard so you can log into the app!
+            </div>
+            
+            <p><strong>(Optional) Dummy Data:</strong> If you want to populate your store with a dummy catalog and customers, run the <code>supabase_seed.sql</code> file after the schema. Make sure to replace the placeholder User UUID with your actual Auth UUID.</p>
+        </section>
+
+        <section id="environment-variables">
+            <h3>Environment Variables</h3>
+            <p>Your React application needs to connect to Supabase. Find the <code>.env.example</code> file in your project root and rename it to <code>.env.local</code>.</p>
+            <div class="code-block">
+                VITE_SUPABASE_URL=https://your-project.supabase.co<br>
+                VITE_SUPABASE_ANON_KEY=eyJhbGci...<br>
+                VITE_DEFAULT_CURRENCY=USD
+            </div>
+            <p>You can find your URL and Anon Key in your Supabase Dashboard under <strong>Project Settings -> API</strong>.</p>
+        </section>
+
+        <section id="customization">
+            <h3>Customization & Branding</h3>
+            <p>Invovo ERP allows you to configure your marketplace currency and default branding without touching core React logic.</p>
+            <p>Open <code>src/config/appConfig.js</code> in your code editor:</p>
+            <div class="code-block">
+                export const APP_CONFIG = {<br>
+                &nbsp;&nbsp;appName: 'Invovo ERP',<br>
+                &nbsp;&nbsp;companyName: 'Your SaaS Brand',<br>
+                &nbsp;&nbsp;defaultCurrency: import.meta.env.VITE_DEFAULT_CURRENCY || 'PKR',<br>
+                &nbsp;&nbsp;supportedCurrencies: {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;PKR: { symbol: 'Rs.' },<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;USD: { symbol: '$' },<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;EUR: { symbol: '€' }<br>
+                &nbsp;&nbsp;}<br>
+                };
+            </div>
+            <p>To change the currency dynamically without code edits, simply add <code>VITE_DEFAULT_CURRENCY=USD</code> to your <code>.env.local</code> or Vercel settings!</p>
+        </section>
+
+        <section id="deployment">
+            <h3>Deployment (Production)</h3>
+            <p>Since Invovo ERP is built with Vite, it can be hosted on any static hosting platform for free (e.g., Vercel, Netlify, Cloudflare Pages).</p>
+            <ol>
+                <li>Push your customized code to a private GitHub repository.</li>
+                <li>Import the repository into Vercel or Netlify.</li>
+                <li>Set the build command to <code>npm run build</code> and output to <code>dist</code>.</li>
+                <li><strong>CRITICAL:</strong> Add your <code>VITE_SUPABASE_URL</code> and <code>VITE_SUPABASE_ANON_KEY</code> to the Environment Variables section in the Vercel/Netlify dashboard.</li>
+                <li>Click Deploy. Your POS is now live worldwide!</li>
+            </ol>
+        </section>
+
+        <section id="faqs">
+            <h3>FAQs & Troubleshooting</h3>
+            <p><strong>Q: I get a red "Setup Required" screen when I start the app.</strong><br>
+            A: This means your <code>.env.local</code> file is missing or named incorrectly, or you forgot to restart your terminal after creating it.</p>
+            
+            <p><strong>Q: I can't login with my user credentials!</strong><br>
+            A: Make sure you created the user via the <em>Supabase Authentication Dashboard</em>, and that you have successfully run the <code>supabase_schema.sql</code> which maps Auth users to Public Profiles.</p>
+            
+            <p><strong>Q: Does this work offline?</strong><br>
+            A: Yes. The POS utilizes PWA Service Workers to cache assets and allows local queuing of invoice data when the internet drops.</p>
+        </section>
+    </div>
+
+</body>
+</html>
