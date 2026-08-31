@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { Phone, Lock, UserPlus, AlertCircle, Eye, EyeOff, Store, MapPin } from 'lucide-react';
+import { Lock, UserPlus, AlertCircle, Eye, EyeOff, Store, MapPin, Mail, User } from 'lucide-react';
 
 export default function Signup() {
-  const [phone, setPhone] = useState('');
-  const [pin, setPin] = useState('');
-  const [showPin, setShowPin] = useState(false);
+  const navigate = useNavigate();
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [shopName, setShopName] = useState('');
   const [city, setCity] = useState('');
   const [loading, setLoading] = useState(false);
@@ -25,29 +27,32 @@ export default function Signup() {
     const cleanedShopName = shopName.trim();
     const cleanedCity = city.trim();
 
-    if (!cleanedShopName || !cleanedCity) {
-      setError('Shop Name and City cannot be blank.');
+    if (!cleanedShopName || !cleanedCity || !fullName) {
+      setError('All fields are required.');
       return;
     }
 
-    if (!phone || phone.length < 10) {
-      setError('Mobile Number must be valid.');
+    if (!email) {
+      setError('Email address is required.');
       return;
     }
 
-    if (pin.length < 4) {
-      setError('PIN must be at least 4 digits long.');
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters long.');
       return;
     }
 
     setLoading(true);
-    const fakeEmail = `${phone}@InvovoERP.com`;
-    const fakePassword = `${pin}-InvovoERP2026`;
 
     try {
       const { data: authData, error: authError } = await supabase.auth.signUp({
-        email: fakeEmail,
-        password: fakePassword,
+        email,
+        password,
+        options: {
+          data: {
+            full_name: fullName,
+          }
+        }
       });
 
       if (authError) throw authError;
@@ -60,29 +65,8 @@ export default function Signup() {
 
       if (rpcError) throw rpcError;
 
-      // Safely map the phone number to the new shop
-      if (authData?.user) {
-        const { data: memberData } = await supabase
-          .from('shop_members')
-          .select('shop_id')
-          .eq('user_id', authData.user.id)
-          .order('created_at', { ascending: false })
-          .limit(1)
-          .single();
-
-        if (memberData?.shop_id) {
-          await supabase
-            .from('shops')
-            .update({ phone: phone, whatsapp_number: phone })
-            .eq('id', memberData.shop_id);
-        }
-      }
-
-      // Log the user out so they can log back in with their new credentials
-      await supabase.auth.signOut();
-      
-      // Navigate to login screen
-      window.location.href = '/login';
+      // Navigate to dashboard or prompt to verify email
+      navigate('/dashboard');
     } catch (err) {
       console.error("Signup Error:", err);
       let errorMessage = 'Failed to create account.';
@@ -94,10 +78,6 @@ export default function Signup() {
       } else if (typeof err === 'string') {
         errorMessage = err;
       }
-
-      if (errorMessage.toLowerCase().includes('already registered') || errorMessage.toLowerCase().includes('already exists')) {
-        errorMessage = 'This Mobile Number is already registered. Please log in.';
-      }
       
       setError(errorMessage);
     } finally {
@@ -106,8 +86,8 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4">
-      <div className="w-full max-w-md bg-white/10 backdrop-blur-xl border border-white/20 p-8 rounded-3xl shadow-2xl">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4 py-8 overflow-y-auto">
+      <div className="w-full max-w-md bg-white/10 backdrop-blur-xl border border-white/20 p-8 rounded-3xl shadow-2xl my-auto mt-10">
         <div className="flex justify-center mb-6">
           <div className="bg-indigo-500/20 p-4 rounded-full border border-indigo-500/30">
             <UserPlus className="w-8 h-8 text-indigo-400" />
@@ -115,7 +95,7 @@ export default function Signup() {
         </div>
         <h2 className="text-3xl font-bold text-center text-white mb-2">Create Account</h2>
         <p className="text-center text-emerald-400 font-medium mb-1">First time here?</p>
-        <p className="text-center text-slate-300 text-sm mb-8 px-4">Enter your mobile number, a 4-digit PIN, and your shop details to create an account.</p>
+        <p className="text-center text-slate-300 text-sm mb-8 px-4">Enter your details below to create an account and set up your business workspace.</p>
 
         {error && (
           <div className="mb-6 p-4 bg-red-500/10 border border-red-500/50 rounded-xl flex items-center gap-3 text-red-200">
@@ -124,7 +104,7 @@ export default function Signup() {
           </div>
         )}
 
-        <form onSubmit={handleSignup} className="space-y-5">
+        <form onSubmit={handleSignup} className="space-y-4">
           <div className="absolute opacity-0 pointer-events-none h-0 w-0 overflow-hidden" aria-hidden="true">
             <input
               type="text"
@@ -135,6 +115,22 @@ export default function Signup() {
               autoComplete="off"
             />
           </div>
+
+          <div>
+            <label className="block text-sm font-medium text-slate-300 mb-1">Full Name</label>
+            <div className="relative">
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+              <input
+                type="text"
+                required
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
+                placeholder="Alex Johnson"
+              />
+            </div>
+          </div>
+
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-1">Shop Name</label>
             <div className="relative">
@@ -145,13 +141,13 @@ export default function Signup() {
                 value={shopName}
                 onChange={(e) => setShopName(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
-                placeholder="Mian Traders"
+                placeholder="Your Company Store"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">City</label>
+            <label className="block text-sm font-medium text-slate-300 mb-1">City / Region</label>
             <div className="relative">
               <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
@@ -160,48 +156,45 @@ export default function Signup() {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
-                placeholder="Lahore"
+                placeholder="New York"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">Mobile Number</label>
+            <label className="block text-sm font-medium text-slate-300 mb-1">Email Address</label>
             <div className="relative">
-              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
-                type="tel"
-                inputMode="numeric"
-                pattern="[0-9]*"
+                type="email"
                 required
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white font-mono placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
-                placeholder="12345678900"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
+                placeholder="name@company.com"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">Secret PIN (4 Digits)</label>
+            <label className="block text-sm font-medium text-slate-300 mb-1">Password</label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
-                type={showPin ? "text" : "password"}
-                inputMode="numeric"
-                pattern="[0-9]*"
+                type={showPassword ? "text" : "password"}
                 required
-                value={pin}
-                onChange={(e) => setPin(e.target.value)}
+                minLength="6"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="w-full pl-10 pr-12 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white font-mono placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
-                placeholder="1234"
+                placeholder="••••••••"
               />
               <button 
                 type="button" 
-                onClick={() => setShowPin(!showPin)} 
+                onClick={() => setShowPassword(!showPassword)} 
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
               >
-                {showPin ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>
           </div>
@@ -209,7 +202,7 @@ export default function Signup() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-slate-900 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-slate-900 disabled:opacity-50 disabled:cursor-not-allowed mt-4"
           >
             {loading ? 'Creating account...' : 'Sign Up'}
           </button>

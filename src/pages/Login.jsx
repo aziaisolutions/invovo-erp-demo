@@ -1,33 +1,49 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { Phone, Lock, LogIn, AlertCircle, Eye, EyeOff } from 'lucide-react';
+import { Lock, LogIn, AlertCircle, Eye, EyeOff, Mail, Zap } from 'lucide-react';
 
 export default function Login() {
   const navigate = useNavigate();
-  const [phone, setPhone] = useState('');
-  const [pin, setPin] = useState('');
-  const [showPin, setShowPin] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleLogin = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     setError('');
     setLoading(true);
 
-    if (!phone || phone.length < 10) {
-      setError('Mobile Number must be valid.');
+    if (!email || !password) {
+      setError('Please enter both email and password.');
       setLoading(false);
       return;
     }
 
-    const fakeEmail = `${phone}@InvovoERP.com`;
-    const fakePassword = `${pin}-InvovoERP2026`;
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      setError(error.message);
+    } else {
+      navigate('/dashboard');
+    }
+    setLoading(false);
+  };
+
+  const handleDemoLogin = async () => {
+    setEmail('demo@invovoerp.com');
+    setPassword('demo12345');
+    setError('');
+    setLoading(true);
 
     const { error } = await supabase.auth.signInWithPassword({
-      email: fakeEmail,
-      password: fakePassword,
+      email: 'demo@invovoerp.com',
+      password: 'demo12345',
     });
 
     if (error) {
@@ -47,7 +63,7 @@ export default function Login() {
           </div>
         </div>
         <h2 className="text-3xl font-bold text-center text-white mb-2">Welcome Back</h2>
-        <p className="text-center text-slate-300 text-sm mb-8 px-4">If you don't have an account, click the Sign up button below to create one.</p>
+        <p className="text-center text-slate-300 text-sm mb-8 px-4">Enter your credentials to access your ERP dashboard.</p>
 
         {error && (
           <div className="mb-6 p-4 bg-red-500/10 border border-red-500/50 rounded-xl flex items-center gap-3 text-red-200">
@@ -58,47 +74,43 @@ export default function Login() {
 
         <form onSubmit={handleLogin} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">Mobile Number</label>
+            <label className="block text-sm font-medium text-slate-300 mb-1">Email Address</label>
             <div className="relative">
-              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
-                type="tel"
-                inputMode="numeric"
-                pattern="[0-9]*"
+                type="email"
                 required
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white font-mono placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
-                placeholder="12345678900"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
+                placeholder="name@company.com"
               />
             </div>
           </div>
 
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label className="block text-sm font-medium text-slate-300">Secret PIN (4 Digits)</label>
+              <label className="block text-sm font-medium text-slate-300">Password</label>
               <Link to="/forgot-password" className="text-sm text-indigo-400 hover:text-indigo-300 transition-colors">
-                Forgot PIN?
+                Forgot Password?
               </Link>
             </div>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
-                type={showPin ? "text" : "password"}
-                inputMode="numeric"
-                pattern="[0-9]*"
+                type={showPassword ? "text" : "password"}
                 required
-                value={pin}
-                onChange={(e) => setPin(e.target.value)}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="w-full pl-10 pr-12 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white font-mono placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
-                placeholder="1234"
+                placeholder="••••••••"
               />
               <button 
                 type="button" 
-                onClick={() => setShowPin(!showPin)} 
+                onClick={() => setShowPassword(!showPassword)} 
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
               >
-                {showPin ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>
           </div>
@@ -111,6 +123,18 @@ export default function Login() {
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
+
+        <div className="mt-6">
+          <button
+            type="button"
+            onClick={handleDemoLogin}
+            disabled={loading}
+            className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 rounded-xl font-bold transition-all focus:outline-none"
+          >
+            <Zap className="w-5 h-5" />
+            1-Click Demo Login
+          </button>
+        </div>
 
         <p className="mt-8 text-center text-base text-slate-400">
           Don't have an account?{' '}

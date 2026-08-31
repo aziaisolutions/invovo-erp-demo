@@ -1,7 +1,10 @@
 -- ==============================================================================
 -- INVOVO ERP - DEMO SEED DATA
 -- IMPORTANT: Before running this script, go to the Sign Up page of the app
--- and create a test account (e.g. Mobile: 12345678900, PIN: 1234, Shop: Demo Store).
+-- and create a test account with the following credentials:
+-- Email: demo@invovoerp.com
+-- Password: demo12345
+-- Shop Name: Demo Store
 -- After signing up, run this script in your Supabase SQL Editor.
 -- ==============================================================================
 
@@ -25,7 +28,7 @@ BEGIN
             'Invovo Demo Store',
             'Electronics & Retail',
             'USD',
-            '+1 (800) 555-0199',
+            '+1 234 567 8900',
             '100 Innovation Way, Suite 400, Tech Park',
             current_user_id
         ) ON CONFLICT (id) DO NOTHING;
@@ -46,11 +49,11 @@ BEGIN
 
         -- 4. Seed Demo Customer & Supplier
         INSERT INTO public.customers (id, shop_id, name, phone, address, payment_due)
-        VALUES (demo_customer_id, demo_shop_id, 'Alex Johnson', '+1 (555) 012-3456', '742 Evergreen Terrace', 0.00)
+        VALUES (demo_customer_id, demo_shop_id, 'Alex Johnson', '+1 234 567 8900', '742 Evergreen Terrace', 0.00)
         ON CONFLICT (id) DO NOTHING;
 
         INSERT INTO public.suppliers (id, shop_id, name, phone, company, balance_due)
-        VALUES (demo_supplier_id, demo_shop_id, 'Apex Hardware Distributors', '+1 (555) 987-6543', 'Apex Logistics Inc.', 0.00)
+        VALUES (demo_supplier_id, demo_shop_id, 'Apex Hardware Distributors', '+1 234 567 8900', 'Apex Logistics Inc.', 0.00)
         ON CONFLICT (id) DO NOTHING;
 
         -- 5. Seed Initial Sample Invoice
