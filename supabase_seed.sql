@@ -1,6 +1,8 @@
 -- ==============================================================================
 -- INVOVO ERP - DEMO SEED DATA
--- Run this script in Supabase SQL Editor AFTER setting up an authenticated user
+-- IMPORTANT: Before running this script, go to the Sign Up page of the app
+-- and create a test account (e.g. Mobile: 12345678900, PIN: 1234, Shop: Demo Store).
+-- After signing up, run this script in your Supabase SQL Editor.
 -- ==============================================================================
 
 DO $$

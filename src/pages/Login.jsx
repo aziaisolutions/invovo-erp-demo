@@ -47,7 +47,7 @@ export default function Login() {
           </div>
         </div>
         <h2 className="text-3xl font-bold text-center text-white mb-2">Welcome Back</h2>
-        <p className="text-center text-slate-300 text-sm mb-8 px-4">Agar aap ka account nahi bana hua toh naya account banane ke liye neechay diye gaye Sign up button par click karein.</p>
+        <p className="text-center text-slate-300 text-sm mb-8 px-4">If you don't have an account, click the Sign up button below to create one.</p>
 
         {error && (
           <div className="mb-6 p-4 bg-red-500/10 border border-red-500/50 rounded-xl flex items-center gap-3 text-red-200">
@@ -58,7 +58,7 @@ export default function Login() {
 
         <form onSubmit={handleLogin} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">Mobile Number (0300...)</label>
+            <label className="block text-sm font-medium text-slate-300 mb-1">Mobile Number</label>
             <div className="relative">
               <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
@@ -69,7 +69,7 @@ export default function Login() {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white font-mono placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
-                placeholder="03001234567"
+                placeholder="12345678900"
               />
             </div>
           </div>

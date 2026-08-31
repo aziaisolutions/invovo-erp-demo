@@ -18,7 +18,7 @@ export default function Signup() {
     setError('');
 
     if (honeypotValue.trim() !== '') {
-      setError('Automation detected / بوٹ بلاک کر دیا گیا ہے!');
+      setError('Automation detected!');
       return;
     }
 
@@ -96,7 +96,7 @@ export default function Signup() {
       }
 
       if (errorMessage.toLowerCase().includes('already registered') || errorMessage.toLowerCase().includes('already exists')) {
-        errorMessage = 'Yeh Mobile Number pehle se registered hai. Barae meharbani "Log in" karein.';
+        errorMessage = 'This Mobile Number is already registered. Please log in.';
       }
       
       setError(errorMessage);
@@ -114,8 +114,8 @@ export default function Signup() {
           </div>
         </div>
         <h2 className="text-3xl font-bold text-center text-white mb-2">Create Account</h2>
-        <p className="text-center text-emerald-400 font-medium mb-1">Pehli dafa aaye hain?</p>
-        <p className="text-center text-slate-300 text-sm mb-8 px-4">Naya account banane ke liye apna mobile number, 4-hinson ka asan PIN aur dukan ki maloomat darj karein.</p>
+        <p className="text-center text-emerald-400 font-medium mb-1">First time here?</p>
+        <p className="text-center text-slate-300 text-sm mb-8 px-4">Enter your mobile number, a 4-digit PIN, and your shop details to create an account.</p>
 
         {error && (
           <div className="mb-6 p-4 bg-red-500/10 border border-red-500/50 rounded-xl flex items-center gap-3 text-red-200">
@@ -136,7 +136,7 @@ export default function Signup() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">Dukan Ka Naam (Shop Name)</label>
+            <label className="block text-sm font-medium text-slate-300 mb-1">Shop Name</label>
             <div className="relative">
               <Store className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
@@ -151,7 +151,7 @@ export default function Signup() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">Shehar (City)</label>
+            <label className="block text-sm font-medium text-slate-300 mb-1">City</label>
             <div className="relative">
               <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
@@ -166,7 +166,7 @@ export default function Signup() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">Mobile Number (0300...)</label>
+            <label className="block text-sm font-medium text-slate-300 mb-1">Mobile Number</label>
             <div className="relative">
               <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
@@ -177,7 +177,7 @@ export default function Signup() {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white font-mono placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
-                placeholder="03001234567"
+                placeholder="12345678900"
               />
             </div>
           </div>
@@ -216,7 +216,7 @@ export default function Signup() {
         </form>
 
         <p className="mt-8 text-center text-base text-slate-400">
-          Pehle se account hai?{' '}
+          Already have an account?{' '}
           <Link to="/login" className="text-emerald-400 hover:text-emerald-300 text-lg font-black tracking-wide transition-colors inline-block ml-2 bg-emerald-500/10 px-4 py-2 rounded-xl border border-emerald-500/30">
             Log in
           </Link>
