@@ -15,14 +15,29 @@ export const AuthProvider = ({ children }) => {
 
   const fetchShopMember = async (userId) => {
     try {
-      const { data, error } = await supabase
+      let { data, error } = await supabase
         .from('shop_members')
         .select('*')
         .eq('user_id', userId)
         .single();
       
-      if (!error && data) {
+      if (error || !data) {
+        // Safe fallback for demo users or missing links
+        const { data: shopData } = await supabase
+          .from('shops')
+          .select('id')
+          .eq('owner_id', userId)
+          .limit(1)
+          .single();
+          
+        if (shopData) {
+          data = { shop_id: shopData.id, role: 'shop_owner', user_id: userId };
+        }
+      }
+
+      if (data && data.shop_id) {
         setShopMember(data);
+        localStorage.setItem('current_shop_id', data.shop_id);
       } else {
         setShopMember(null);
       }

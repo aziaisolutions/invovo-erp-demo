@@ -52,15 +52,15 @@ export default function Reports() {
         const parsedSettings = JSON.parse(settingsCached);
         if (parsedSettings?.shop_name) setShopName(parsedSettings.shop_name);
       } else {
-        const { data: realShopRow } = await supabase.from('shops').select('name, shop_name').eq('id', activeShopId).maybeSingle();
+        const { data: realShopRow } = await supabase.from('shops').select('name, shop_name').eq('id', targetShopId).maybeSingle();
         if (realShopRow) setShopName(realShopRow.name || realShopRow.shop_name || 'My Shop');
       }
 
       // 🔒 STRICТ STMT BARRIER: Reports ke data matrix ko active ledger ke sath zero variance sync krne k liye filter
       const [txRes, exRes, invRes] = await Promise.all([
-        supabase.from('transactions').select('*').eq('shop_id', activeShopId),
-        supabase.from('expenses').select('*').eq('shop_id', activeShopId).neq('status', 'cancelled'),
-        supabase.from('invoices').select('*').eq('shop_id', activeShopId).neq('status', 'cancelled').neq('status', 'hidden')
+        supabase.from('transactions').select('*').eq('shop_id', targetShopId),
+        supabase.from('expenses').select('*').eq('shop_id', targetShopId).neq('status', 'cancelled'),
+        supabase.from('invoices').select('*').eq('shop_id', targetShopId).neq('status', 'cancelled').neq('status', 'hidden')
       ]);
 
       if (txRes.error) throw txRes.error;
