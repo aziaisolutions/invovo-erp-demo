@@ -27,8 +27,8 @@ export default function Suppliers() {
     
     const currentStatus = selectedEntity.khata_status === 'closed' ? 'active' : 'closed';
     const confirmMsg = currentStatus === 'closed' 
-      ? "🔒 Kya aap is supplier ka maujooda khata session completely close the current session?" 
-      : "🔓 Kya aap is khata session ko Re-open this session for new transactions?";
+      ? "Are you sure you want to close the current supplier session?" 
+      : "Are you sure you want to re-open this session for new transactions?";
       
     if (!window.confirm(confirmMsg)) return;
 
@@ -271,7 +271,7 @@ export default function Suppliers() {
       }
     }
     else if (userChoice === '2') {
-      alert("🚨 SAFETY ALERT: 'Full Ledger Cancellation' system band kar diya gaya hai kyunke yeh fragile data-scraping par mabni tha. \n\n✅ Kripya Option '3' (Partial Return) istemal karein, jo ab directly supplier stock aur ledger ko accurately sync karta hai!");
+      alert("🚨 SAFETY ALERT: This feature has been deprecated.");
       return;
     }
     else if (userChoice === '3') {
@@ -645,7 +645,7 @@ export default function Suppliers() {
                     const msg = `*Invovo ERP Supplier Ledger* 📊\n\n` +
                       `🏢 *Business / Shop Details:*\n` +
                       `• *Shop:* ${activeShopInfo?.name || 'Invovo'}\n` +
-                      `• *Phone:* ${activeShopInfo?.phone || '03336825383'}\n` +
+                      `• *Phone:* ${activeShopInfo?.phone || '+12345678900'}\n` +
                       `• *Address:* ${activeShopInfo?.address || 'District Mianwali'}\n\n` +
                       `Dear *${selectedEntity.supplier_name || selectedEntity.name}*,\n` +
                       `Your complete live ledger summary is provided below:\n\n` +
@@ -783,7 +783,7 @@ export default function Suppliers() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-1">Phone</label>
-                <input type="tel" inputMode="numeric" pattern="[0-9]*" value={newSupplier.phone || ''} onChange={e => setNewSupplier({...newSupplier, phone: e.target.value})} className="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-700 rounded-xl text-white font-mono outline-none" placeholder="03001234567" />
+                <input type="tel" inputMode="numeric" pattern="[0-9]*" value={newSupplier.phone || ''} onChange={e => setNewSupplier({...newSupplier, phone: e.target.value})} className="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-700 rounded-xl text-white font-mono outline-none" placeholder="+1 234 567 8900" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-1">Address</label>

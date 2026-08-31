@@ -373,7 +373,7 @@ export default function Reports() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 border-b border-slate-100 dark:border-slate-800 pb-4">
             <div>
               <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-tight">📈 Net Profit vs Expenses</h3>
-              <p className="text-xs font-bold text-indigo-500 font-urdu mt-0.5">Net Profit بمقابلہ اخراجات (روزانہ)</p>
+              <p className="text-xs font-bold text-indigo-500 font-urdu mt-0.5">Net Profit vs Expenses (Daily)</p>
             </div>
           </div>
           

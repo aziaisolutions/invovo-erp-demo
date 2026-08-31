@@ -692,7 +692,7 @@ export default function Customers() {
             line-height: ${printPaperSize === 'Thermal' ? '1' : '1.3'} !important;
             border: 1px solid #000000 !important; 
             word-wrap: break-word !important; 
-            white-space: nowrap !important; /* 🌟 Numbers ko lakhon mein tootne se rokne k liye solid lock */
+            white-space: nowrap !important; /* Prevent large numbers from breaking line */
             color: #000000 !important; 
           }
           th { 
@@ -930,14 +930,14 @@ export default function Customers() {
                       } else {
                         const billTotal = Number(latestTx.amt || 0);
                         const cashPaid = Number(latestTx.rec || 0);
-                        contextBlock = `🧾 *Total Purchase Bill:* ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(billTotal).toLocaleString()}\n💵 *Ada Kiye Gaye (Cash Paid):* ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(cashPaid).toLocaleString()}\n🔹 *Baki Remaining Balance:* ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(totalBaqi).toLocaleString()}`;
+                        contextBlock = `🧾 *Total Purchase Bill:* ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(billTotal).toLocaleString()}\n💵 *Amount Paid (Cash):* ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(cashPaid).toLocaleString()}\n🔹 *Remaining Balance:* ${APP_CONFIG.supportedCurrencies[APP_CONFIG.defaultCurrency].symbol} ${Number(totalBaqi).toLocaleString()}`;
                       }
                     }
 
                     const msg = `*Invovo ERP Customer Ledger* 📊\n\n` +
                       `🏢 *Business / Shop Details:*\n` +
                       `• *Shop:* ${activeShopInfo?.name || 'Invovo'}\n` +
-                      `• *Phone:* ${activeShopInfo?.phone || '03336825383'}\n` +
+                      `• *Phone:* ${activeShopInfo?.phone || '+12345678900'}\n` +
                       `• *Address:* ${activeShopInfo?.address || 'District Mianwali'}\n\n` +
                       `Dear *${selectedEntity?.full_name || selectedEntity?.name || 'Gāhak'}*,\n` +
                       `Your complete live ledger summary is provided below:\n\n` +
@@ -1044,7 +1044,7 @@ export default function Customers() {
             <div className="overflow-x-auto w-full"><table className="w-full text-left border-collapse text-xs">
               <thead>
                 <tr className="bg-slate-900 text-white text-[11px] uppercase font-bold">
-                  {/* Thermal size par columns ko mazeed open space dia gaya hai taake bare figures break na hon */}
+                  {/* Expanded spacing for thermal columns to prevent figure break */}
                   <th className="p-2 text-white whitespace-nowrap" style={{ width: printPaperSize === 'Thermal' ? '25%' : '15%' }}>Date</th>
                   <th className="p-2 text-white whitespace-nowrap" style={{ width: printPaperSize === 'Thermal' ? '27%' : '45%' }}>Details</th>
                   <th className="p-2 text-right text-white whitespace-nowrap" style={{ width: printPaperSize === 'Thermal' ? '15%' : '13%' }}>Debit</th>
@@ -1155,7 +1155,7 @@ export default function Customers() {
               </div>
               <div>
                 <label className="block text-slate-300 mb-1">Mobile Number (11 Digits)</label>
-                <input type="tel" inputMode="numeric" pattern="[0-9]*" value={newCustomer.phone || ''} onChange={e => setNewCustomer({...newCustomer, phone: e.target.value})} className="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-700 rounded-xl text-white font-mono outline-none" placeholder="03001234567" />
+                <input type="tel" inputMode="numeric" pattern="[0-9]*" value={newCustomer.phone || ''} onChange={e => setNewCustomer({...newCustomer, phone: e.target.value})} className="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-700 rounded-xl text-white font-mono outline-none" placeholder="+1 234 567 8900" />
               </div>
               <div>
                 <label className="block text-slate-300 mb-1">Home / Shop Address</label>
@@ -1213,7 +1213,7 @@ export default function Customers() {
                 <label className="block text-slate-300 mb-1">Transaction Type</label>
                 <select value={newTx.type} onChange={e => setNewTx({...newTx, type: e.target.value})} className="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-700 rounded-xl text-white cursor-pointer">
                   <option value="sale">Total Bill Owed (Credit / Sale)</option>
-                  <option value="payment">Cash Received (Wasooli / Credit)</option>
+                  <option value="payment">Cash Received (Credit Payment)</option>
                 </select>
               </div>
               <div>

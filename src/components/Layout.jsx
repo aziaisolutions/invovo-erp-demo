@@ -61,7 +61,7 @@ export default function Layout() {
   const navLinks = useMemo(() => {
     return [
       { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
-      { name: 'Inventory (Maal Setup)', path: '/inventory', icon: Package },
+      { name: 'Inventory Management', path: '/inventory', icon: Package },
       { name: 'Customers', path: '/customers', icon: Users },
       { name: 'Suppliers', path: '/suppliers', icon: Truck },
       { name: 'Invoices & Billing', path: '/invoices', icon: FileText },

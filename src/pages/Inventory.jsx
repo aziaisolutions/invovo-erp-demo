@@ -1072,7 +1072,7 @@ export default function Inventory() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-slate-400 uppercase mb-1 flex items-center gap-1"><Phone className="w-3 h-3" /> Contact Mobile</label>
-                  <input type="tel" inputMode="numeric" pattern="[0-9]*" value={supplierForm.phone || ''} onChange={e => setSupplierForm({...supplierForm, phone: e.target.value})} className="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none" placeholder="03001234567" />
+                  <input type="tel" inputMode="numeric" pattern="[0-9]*" value={supplierForm.phone || ''} onChange={e => setSupplierForm({...supplierForm, phone: e.target.value})} className="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white outline-none" placeholder="+1 234 567 8900" />
                 </div>
                 <div>
                   <label className="block text-slate-400 uppercase mb-1 flex items-center gap-1"><MapPin className="w-3 h-3" /> Market Address</label>

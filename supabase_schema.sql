@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS public.stock_transactions (
 );
 
 -- ------------------------------------------------------------------------------
--- 7. CUSTOMERS & SUPPLIERS (Khata / CRM)
+-- 7. CUSTOMERS & SUPPLIERS (Ledger / CRM)
 -- ------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS public.customers (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),

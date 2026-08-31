@@ -180,7 +180,7 @@ export default function InvovoAdminControl() {
   // One-time Payment (Rs. 14,999) trigger with safety check
   const handleRegisterOneTimeActivation = async (shopId) => {
     const shop = shops.find(s => s.id === shopId);
-    const shopName = shop?.name || shop?.shop_name || "Is dukan";
+    const shopName = shop?.name || shop?.shop_name || "This store";
     
     // Safety Alert pop-up
     const confirmPayment = window.confirm(
@@ -221,7 +221,7 @@ export default function InvovoAdminControl() {
   // Annual Renewal Payment (Rs. 4,000) trigger with safety check
   const handleRegisterAnnualRenewal = async (shopId) => {
     const shop = shops.find(s => s.id === shopId);
-    const shopName = shop?.name || shop?.shop_name || "Is dukan";
+    const shopName = shop?.name || shop?.shop_name || "This store";
 
     // Safety Alert pop-up
     const confirmPayment = window.confirm(
@@ -733,7 +733,7 @@ export default function InvovoAdminControl() {
                             onChange={(e) => setSupportWhatsapp(e.target.value)}
                             disabled={settingsSaving}
                             className="w-full bg-slate-950/50 border border-slate-800 text-slate-200 px-4 py-3 rounded-xl text-sm font-medium outline-none focus:border-indigo-500 transition-colors"
-                            placeholder="e.g. 03001234567"
+                            placeholder="+1 234 567 8900"
                           />
                         </div>
                         <div>

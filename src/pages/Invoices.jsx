@@ -840,7 +840,7 @@ export default function Invoices() {
           amount: returnValue, 
           cash_paid_received: returnValue,
           remaining_balance: currentCustBalance - returnValue,
-          notes: `Maal Wapsi (Return): ${returnQty} Qty of ${itemToReturn.name || 'Items'} from Inv: ${inv.invoice_number}`
+          notes: `Item Return: ${returnQty} Qty of ${itemToReturn.name || 'Items'} from Inv: ${inv.invoice_number}`
         }]);
 
         await supabase
@@ -953,7 +953,7 @@ export default function Invoices() {
           transaction_type: 'reversal',
           amount: totalReturnCreditValue,
           remaining_balance: parseFloat(newGlobalCustomerBalance),
-          notes: `Maal Wapsi / Partial Return for Invoice No: ${returnTargetInvoice.invoice_number}`,
+          notes: `Item / Partial Return for Invoice No: ${returnTargetInvoice.invoice_number}`,
           cash_paid_received: totalReturnCreditValue,
           total_bill: 0
         };
@@ -1461,7 +1461,7 @@ export default function Invoices() {
 
                     <div>
                       <label className="block text-xs font-semibold text-slate-400 mb-1.5">Mobile Number</label>
-                      <input type="tel" value={formCustomerPhone} onChange={e => setFormCustomerPhone(e.target.value)} className="w-full px-4 py-2.5 bg-slate-900/60 border border-slate-700 rounded-xl text-white font-mono outline-none text-left text-sm font-bold" placeholder="03001234567" />
+                      <input type="tel" value={formCustomerPhone} onChange={e => setFormCustomerPhone(e.target.value)} className="w-full px-4 py-2.5 bg-slate-900/60 border border-slate-700 rounded-xl text-white font-mono outline-none text-left text-sm font-bold" placeholder="+1 234 567 8900" />
                     </div>
                   </div>
 
@@ -1601,7 +1601,7 @@ export default function Invoices() {
                 <input type="radio" name="sessionRadio" checked={sessionChoice === 'current'} onChange={() => setSessionChoice('current')} className="mt-1 accent-indigo-500" />
                 <div className="text-right">
                   <p className="font-black text-sm text-slate-100">Continue Current Ledger</p>
-                  <p className="text-[11px] font-bold text-slate-400 mt-0.5">نیا ادھار Customer کے اسی پرانے چلتے ہوئے بیلنس میں جمع ہو جائے گا۔</p>
+                  <p className="text-[11px] font-bold text-slate-400 mt-0.5">New credit will be added to the customer's existing running balance.</p>
                 </div>
               </label>
 
@@ -1664,7 +1664,7 @@ export default function Invoices() {
           <div className="bg-slate-800 border border-slate-700 w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
             <div className="p-5 border-b border-slate-700/50 bg-slate-900/40 flex justify-between items-center text-left">
               <div>
-                <h2 className="text-base font-black text-white uppercase tracking-wider flex items-center gap-1.5">📦 Partial Maal Wapsi Form</h2>
+                <h2 className="text-base font-black text-white uppercase tracking-wider flex items-center gap-1.5">📦 Partial Return Form</h2>
                 <p className="text-mono font-semibold text-[10px] text-slate-400 mt-0.5">Invoice: {returnTargetInvoice.invoice_number} • Customer: {returnTargetInvoice.customer_name}</p>
               </div>
               <button type="button" onClick={() => { setShowPartialReturnModal(false); setReturnTargetInvoice(null); }} className="text-slate-400 hover:text-white p-2 rounded-full hover:bg-slate-700">✕</button>
@@ -1708,7 +1708,7 @@ export default function Invoices() {
 
               <div className="pt-4 border-t border-slate-700/50 flex gap-3 bg-slate-800">
                 <button type="button" onClick={() => { setShowPartialReturnModal(false); setReturnTargetInvoice(null); }} className="flex-1 py-2.5 px-4 bg-slate-700 text-white rounded-xl cursor-pointer">Cancel</button>
-                <button type="submit" className="flex-1 py-2.5 px-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl shadow-md cursor-pointer">💾 Save Maal Wapsi</button>
+                <button type="submit" className="flex-1 py-2.5 px-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl shadow-md cursor-pointer">💾 Save Return</button>
               </div>
             </form>
           </div>

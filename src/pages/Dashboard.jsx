@@ -354,7 +354,7 @@ export default function Dashboard() {
                 id: `supp-alert-${supp.id}`, 
                 name: supp.full_name || supp.name || supp.supplier_name || supp.company_name || 'Unknown Supplier', 
                 phone: supp.phone || '',
-                type: 'Supplier (بیوپاری)', 
+                type: 'Supplier', 
                 amount: currentDebt, 
                 dueDate: latestTxWithDue.due_date.split('-').reverse().join('/'), 
                 isOverdue: txDueDate < new Date().setHours(0,0,0,0) 
@@ -484,8 +484,8 @@ export default function Dashboard() {
               </tr>
             </thead>
             <tbody>
-              <tr><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', color: '#2563eb', fontWeight: 'bold' }}>Total Receivables (Gahak Market Credit Outflow)</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', textAlign: 'right', color: '#2563eb', fontWeight: 'black' }}>{formatCurrency(metrics.totalReceivables)}</td></tr>
-              <tr style={{ backgroundColor: '#f8fafc' }}><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', color: '#dc2626', fontWeight: 'bold' }}>Total Payables (Beopari Wholesale Debt Liability)</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', textAlign: 'right', color: '#dc2626', fontWeight: 'black' }}>{formatCurrency(metrics.totalPayables)}</td></tr>
+              <tr><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', color: '#2563eb', fontWeight: 'bold' }}>Total Receivables (Customer Credit Outflow)</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', textAlign: 'right', color: '#2563eb', fontWeight: 'black' }}>{formatCurrency(metrics.totalReceivables)}</td></tr>
+              <tr style={{ backgroundColor: '#f8fafc' }}><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', color: '#dc2626', fontWeight: 'bold' }}>Total Payables (Supplier Debt Liability)</td><td style={{ padding: '8px', borderBottom: '1px solid #e2e8f0', textAlign: 'right', color: '#dc2626', fontWeight: 'black' }}>{formatCurrency(metrics.totalPayables)}</td></tr>
             </tbody>
           </table>
         </div>
@@ -551,16 +551,16 @@ export default function Dashboard() {
 
             {/* HEADER ACTION CONTROLLERS */}
             <div className="flex items-center gap-2 flex-wrap z-10 self-start lg:self-center shrink-0">
-              <button type="button" onClick={() => setShowExpenseModal(true)} className="px-4 py-2 bg-gradient-to-r from-rose-600 to-red-600 text-white rounded-xl text-xs font-black shadow-md cursor-pointer border border-rose-500/40">💸 + Kharcha / خرچہ درج کریں</button>
+              <button type="button" onClick={() => setShowExpenseModal(true)} className="px-4 py-2 bg-gradient-to-r from-rose-600 to-red-600 text-white rounded-xl text-xs font-black shadow-md cursor-pointer border border-rose-500/40">💸 + Record Expense</button>
               
               <select
                 value={timeFilter}
                 onChange={(e) => setTimeFilter(e.target.value)}
                 className="bg-slate-950 border border-slate-700 text-slate-200 px-3 py-2 rounded-xl text-xs font-black focus:outline-none cursor-pointer shadow-md"
               >
-                <option value="today">Today / آج کا حساب</option>
-                <option value="7days">Last 7 Days / اس ہفتے کا کھاتا</option>
-                <option value="30days">Last 30 Days / اس مہینے کا خلاصہ</option>
+                <option value="today">Today / Today's Summary</option>
+                <option value="7days">Last 7 Days / This Week's Summary</option>
+                <option value="30days">Last 30 Days / This Month's Summary</option>
               </select>
 
               <button type="button" onClick={() => window.print()} className="h-[36px] flex items-center gap-1.5 px-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-xl font-black text-xs shadow-md cursor-pointer transition-colors shrink-0 w-full sm:w-auto">
