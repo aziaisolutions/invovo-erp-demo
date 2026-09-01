@@ -72,8 +72,10 @@ export default function Reports() {
       setInvoices(invRes.data || []);
 
     } catch (err) {
-      console.error(err);
-      alert('Failed to fetch financial data.');
+      console.error("Financial Data Fetch Notice:", err);
+      setTransactions([]);
+      setExpenses([]);
+      setInvoices([]);
     } finally {
       setLoading(false);
     }
