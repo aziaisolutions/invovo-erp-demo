@@ -56,7 +56,7 @@ export default function Customers() {
       alert(currentStatus === 'closed' ? "Customer session has been locked successfully!" : "Customer session has been re-activated!");
     } catch (err) {
       console.error("Session Toggle Error:", err);
-      alert("Database error: Session status change failed.");
+      console.error("Database error: Session status change failed.", err);
     } finally {
       setSessionLoading(false);
     }
@@ -486,7 +486,7 @@ export default function Customers() {
 
       } catch (err) {
         console.error("Option 2 Sales Return Core Error:", err);
-        alert("Database connection dropped during sales return sync runtime.");
+        console.error("Database connection dropped during sales return sync runtime.", err);
       } finally {
         setLoading(false);
         if (typeof fetchCustomersData === 'function') fetchCustomersData();

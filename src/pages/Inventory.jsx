@@ -157,7 +157,7 @@ export default function Inventory() {
           setCustomUnits([...customUnits, data]);
           updateIntakeLineItem(itemId, 'unit', data.unit_name);
         } catch (err) {
-          alert('Failed to save unit to database. ');
+          console.error('Failed to save unit to database. ', err);
         }
       }
     } else {
@@ -181,7 +181,7 @@ export default function Inventory() {
           setCustomUnits([...customUnits, data]);
           setNewProduct({ ...newProduct, unit: data.unit_name });
         } catch (err) {
-          alert('Failed to save unit to database. ');
+          console.error('Failed to save unit to database. ', err);
           setNewProduct({ ...newProduct, unit: 'Piece' });
         }
       } else {

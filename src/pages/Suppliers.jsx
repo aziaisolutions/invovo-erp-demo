@@ -52,7 +52,7 @@ export default function Suppliers() {
       alert(currentStatus === 'closed' ? "Customer session has been locked successfully!" : "Customer session has been re-activated!");
     } catch (err) {
       console.error("Session Toggle Error:", err);
-      alert("Database error: Session status change failed.");
+      console.error("Database error: Session status change failed.", err);
     } finally {
       setSessionLoading(false);
     }

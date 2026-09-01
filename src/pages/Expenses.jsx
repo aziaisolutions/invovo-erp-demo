@@ -58,7 +58,7 @@ export default function Expenses() {
       setExpenses(data || []);
     } catch (err) {
       console.error(err);
-      alert('Failed to fetch expenses.');
+      console.error('Failed to fetch expenses.', err);
     } finally {
       setLoading(false);
     }

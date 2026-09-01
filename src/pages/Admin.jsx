@@ -54,7 +54,7 @@ export default function Admin() {
       setShopsData(joined);
     } catch (err) {
       console.error(err);
-      alert('Failed to load global admin data. Check Supabase permissions.');
+      console.error('Failed to load global admin data. Check Supabase permissions.', err);
     } finally {
       setLoading(false);
     }
