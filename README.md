@@ -63,9 +63,9 @@ VITE_DEFAULT_CURRENCY=USD
 
 ### Step 4: (Optional) Demo Data Seeding
 If you want to instantly see how the app looks with data:
-1. First, create a user manually in the **Supabase Auth** dashboard.
-2. Copy that user's UUID.
-3. Open `supabase_seed.sql`, replace the placeholder UUID with your real Auth UUID, and run it in the SQL Editor.
+1. Start the app via `npm run dev` and open it in your browser.
+2. Go to the Sign Up page and create an account (e.g., Email: **demo@invovoerp.com**, Password: **demo12345**).
+3. Open `supabase_seed.sql` in the Supabase SQL Editor and run it. It will automatically detect your user and inject demo data into your dashboard.
 
 ### Step 5: Launch the Application
 Start the Vite development server:
